@@ -113,6 +113,12 @@ return [
             // 'encrypt' => env('DB_ENCRYPT', 'yes'),
             // 'trust_server_certificate' => env('DB_TRUST_SERVER_CERTIFICATE', 'false'),
         ],
+        
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('DB_DSN'),
+            'database' => env('DB_DATABASE', 'gambastore'),
+        ],
 
     ],
 
