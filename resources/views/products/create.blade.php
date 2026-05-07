@@ -12,7 +12,8 @@
 
 <h1>NUEVO BOTÍN / GAMBASTORE</h1>
 
-<form action="{{ route('products.store') }}" method="POST">
+
+<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
     @csrf
     <div class="field">
         <label>Nombre</label>
@@ -39,8 +40,8 @@
         <input type="text" name="talles" placeholder="Ej: 40, 41, 42">
     </div>
     <div class="field full-width">
-        <label>URL de la Imagen</label>
-        <input type="text" name="imagen_url" placeholder="https://cloudinary.com/...">
+        <label>Foto del Botín (Subir a la nube)</label>
+        <input type="file" name="imagen" accept="image/*" required>
     </div>
     <div class="field full-width">
         <label>Descripción del producto</label>

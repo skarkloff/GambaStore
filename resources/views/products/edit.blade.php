@@ -12,7 +12,7 @@
 
 <h1>EDITAR BOTÍN / {{ $product->nombre }}</h1>
 
-<form action="{{ route('products.update', $product->id) }}" method="POST">
+<form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
     @method('PUT')
 
@@ -41,14 +41,22 @@
         <input type="number" name="stock" value="{{ $product->stock }}" required>
     </div>
 
-    <div class="field">
+    <div class="field full-width">
         <label>Talles</label>
-        <input type="text" name="talles" value="{{ is_array($product->talles) ? implode(', ', $product->talles) : $product->talles }}">
+        <input type="text" 
+            name="talles" 
+            value="{{ is_array($product->talles) ? implode(', ', $product->talles) : $product->talles }}" 
+            placeholder="Ej: 38, 39, 40">
     </div>
 
     <div class="field full-width">
-        <label>Imagen URL</label>
-        <input type="text" name="imagen_url" value="{{ $product->imagen_url }}">
+        <label>Actualizar Foto del Botín (Opcional)</label>
+        <input type="file" name="imagen" accept="image/*">
+        
+        @if($product->imagen_url)
+            <p style="font-size: 0.8rem; margin-top: 5px;">Imagen actual:</p>
+            <img src="{{ $product->imagen_url }}" alt="Vista previa" style="width: 100px; border: 2px solid #000; margin-top: 5px;">
+        @endif
     </div>
 
     <div class="field full-width">
