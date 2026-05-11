@@ -8,16 +8,28 @@ Route::get('/', function () {
 });
 
 Route::get('/debug-firestore', function () {
-    $raw  = env('FIREBASE_CREDENTIALS', '');
-    $creds = json_decode($raw, true);
-    return response()->json([
-        'raw_length'    => strlen($raw),
-        'json_error'    => json_last_error_msg(),
-        'project_id'    => env('FIREBASE_PROJECT_ID'),
-        'creds_keys'    => $creds ? array_keys($creds) : null,
-        'has_key'       => isset($creds['private_key']),
-        'key_start'     => isset($creds['private_key']) ? substr($creds['private_key'], 0, 30) : null,
-    ]);
+    try {
+        $credentialsJson = env('FIREBASE_CREDENTIALS', '{}');
+        $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
+        file_put_contents($tmpFile, $credentialsJson);
+
+        $db = new \Google\Cloud\Firestore\FirestoreClient([
+            'projectId'   => env('FIREBASE_PROJECT_ID'),
+            'keyFilePath' => $tmpFile,
+        ]);
+
+        $docs = $db->collection('products')->documents();
+        $count = 0;
+        foreach ($docs as $d) { $count++; }
+
+        return response()->json(['ok' => true, 'docs' => $count]);
+    } catch (\Throwable $e) {
+        return response()->json([
+            'error'   => $e->getMessage(),
+            'class'   => get_class($e),
+            'file'    => basename($e->getFile()) . ':' . $e->getLine(),
+        ]);
+    }
 });
 
 
