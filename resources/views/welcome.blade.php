@@ -4,173 +4,178 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamba Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0a;
+            --black: #111111;
             --yellow: #ffde00;
-            --white: #ffffff;
-            --border: #ffde00;
+            --gray-light: #d6d6d6;
+            --gray-mid: #aaaaaa;
+            --white: #f0f0f0;
+            --shadow: #000000;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--bg);
+            background-color: var(--black);
             color: var(--white);
-            font-family: 'Arial Black', Gadget, sans-serif;
+            font-family: 'Press Start 2P', monospace;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 40px;
+            padding: 30px;
         }
 
         /* HEADER */
         header {
+            background-color: var(--black);
+            border: 4px solid var(--yellow);
+            box-shadow: 6px 6px 0px var(--yellow);
+            padding: 18px 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 4px solid var(--border);
-            padding: 16px 30px;
-            margin-bottom: 40px;
-            background-color: var(--bg);
-            box-shadow: 8px 8px 0px var(--yellow);
+            margin-bottom: 30px;
         }
 
         .logo {
-            font-size: 1.3rem;
+            font-size: 1rem;
             color: var(--yellow);
             text-transform: uppercase;
-            letter-spacing: 6px;
+            letter-spacing: 2px;
         }
 
         .header-badge {
-            font-size: 0.7rem;
+            font-size: 0.45rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
-            color: var(--yellow);
-            border: 2px solid var(--yellow);
-            padding: 6px 14px;
-            opacity: 0.6;
+            letter-spacing: 2px;
+            color: var(--gray-mid);
+            border: 2px solid #333;
+            padding: 6px 12px;
         }
 
         /* HERO */
         .hero {
-            border: 6px solid var(--yellow);
-            box-shadow: 12px 12px 0px var(--yellow);
             background-color: var(--yellow);
-            padding: 60px 50px;
-            margin-bottom: 40px;
+            border: 6px solid var(--shadow);
+            box-shadow: 12px 12px 0px var(--shadow);
+            padding: 50px 40px;
+            margin-bottom: 30px;
             text-align: center;
         }
 
         .hero h1 {
-            font-size: clamp(3.5rem, 9vw, 8rem);
+            font-family: 'Press Start 2P', monospace;
+            font-size: clamp(2rem, 5vw, 4.5rem);
             text-transform: uppercase;
-            line-height: 0.9;
-            color: var(--bg);
-            letter-spacing: -2px;
-            margin-bottom: 16px;
+            color: var(--shadow);
+            line-height: 1.3;
+            margin-bottom: 20px;
         }
 
-        .hero-divider {
-            width: 80px;
-            height: 6px;
-            background: var(--bg);
-            margin: 20px auto;
+        .hero-line {
+            width: 60px;
+            height: 5px;
+            background: var(--shadow);
+            margin: 0 auto 20px;
         }
 
         .hero-sub {
-            font-size: 0.85rem;
+            font-size: 0.45rem;
             text-transform: uppercase;
-            letter-spacing: 5px;
-            color: var(--bg);
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            opacity: 0.7;
+            letter-spacing: 4px;
+            color: #333;
+            line-height: 2;
         }
 
         /* FEATURES */
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
+            gap: 18px;
+            margin-bottom: 30px;
         }
 
         .feature-card {
-            border: 4px solid var(--yellow);
-            padding: 36px 30px;
-            box-shadow: 8px 8px 0px var(--yellow);
-            background-color: var(--bg);
-            position: relative;
+            background-color: var(--gray-light);
+            border: 4px solid var(--shadow);
+            box-shadow: 7px 7px 0px var(--shadow);
+            padding: 30px 24px;
+            color: var(--shadow);
         }
 
         .feature-number {
-            font-size: 0.65rem;
-            letter-spacing: 4px;
-            color: var(--yellow);
+            font-size: 0.45rem;
+            letter-spacing: 3px;
+            color: #555;
             text-transform: uppercase;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
             display: block;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
         }
 
         .feature-card h3 {
-            font-size: 1.2rem;
+            font-size: 0.6rem;
             text-transform: uppercase;
-            color: var(--yellow);
+            color: var(--shadow);
             margin-bottom: 14px;
-            line-height: 1.1;
+            line-height: 1.6;
+            border-left: 4px solid var(--yellow);
+            padding-left: 10px;
         }
 
         .feature-card p {
-            font-size: 0.85rem;
+            font-size: 0.5rem;
             font-family: Arial, sans-serif;
-            line-height: 1.7;
-            font-weight: 400;
-            color: #aaa;
+            font-weight: 700;
+            line-height: 1.8;
+            color: #444;
         }
 
         /* SCOREBOARD */
         .scoreboard {
-            border: 4px solid var(--yellow);
-            box-shadow: 10px 10px 0px var(--yellow);
-            background-color: var(--bg);
-            padding: 30px 40px;
-            margin-bottom: 40px;
-            display: flex;
-            align-items: center;
-            gap: 50px;
+            background-color: var(--gray-light);
+            border: 4px solid var(--shadow);
+            box-shadow: 8px 8px 0px var(--shadow);
+            padding: 24px 30px;
+            margin-bottom: 30px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0;
         }
 
-        .scoreboard-label {
-            font-size: 0.65rem;
-            letter-spacing: 5px;
+        .score-item {
+            padding: 16px 24px;
+            border-right: 3px solid #aaa;
+            color: var(--shadow);
+        }
+
+        .score-item:last-child { border-right: none; }
+
+        .score-label {
+            font-size: 0.4rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
-            color: var(--yellow);
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            margin-bottom: 6px;
+            color: #666;
+            margin-bottom: 10px;
+            display: block;
         }
 
-        .scoreboard-value {
-            font-size: 3rem;
-            color: var(--white);
+        .score-value {
+            font-size: 1rem;
+            color: var(--shadow);
             line-height: 1;
-        }
-
-        .scoreboard-divider {
-            width: 4px;
-            height: 60px;
-            background: var(--yellow);
-            opacity: 0.3;
+            background-color: var(--yellow);
+            display: inline-block;
+            padding: 6px 12px;
+            border: 3px solid var(--shadow);
+            box-shadow: 4px 4px 0px var(--shadow);
         }
 
         /* FOOTER */
         footer {
-            border: 3px solid #333;
-            padding: 16px 30px;
+            border: 3px solid #2a2a2a;
+            padding: 16px 24px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -178,18 +183,18 @@
         }
 
         .footer-brand {
-            font-size: 0.8rem;
+            font-size: 0.5rem;
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 3px;
             color: var(--yellow);
         }
 
         .footer-credits {
-            font-size: 0.65rem;
+            font-size: 0.35rem;
             font-family: Arial, sans-serif;
-            color: #444;
+            color: #333;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1px;
         }
     </style>
 </head>
@@ -197,29 +202,27 @@
 
     <header>
         <span class="logo">Gamba Store</span>
-        <span class="header-badge">Botines de fútbol</span>
+        <span class="header-badge">Est. 2025 — Botines de fútbol</span>
     </header>
 
     <section class="hero">
-        <h1>Gamba<br>Store</h1>
-        <div class="hero-divider"></div>
-        <p class="hero-sub">Tu tienda de botines</p>
+        <h1>GAMBA<br>STORE</h1>
+        <div class="hero-line"></div>
+        <p class="hero-sub">Tu tienda de botines — Envíos a todo el país</p>
     </section>
 
     <div class="scoreboard">
-        <div>
-            <div class="scoreboard-label">Temporada</div>
-            <div class="scoreboard-value">2026</div>
+        <div class="score-item">
+            <span class="score-label">Temporada</span>
+            <span class="score-value">2026</span>
         </div>
-        <div class="scoreboard-divider"></div>
-        <div>
-            <div class="scoreboard-label">Especialidad</div>
-            <div class="scoreboard-value">BOTINES</div>
+        <div class="score-item">
+            <span class="score-label">Especialidad</span>
+            <span class="score-value">BOTINES</span>
         </div>
-        <div class="scoreboard-divider"></div>
-        <div>
-            <div class="scoreboard-label">Envíos</div>
-            <div class="scoreboard-value">TODO ARG</div>
+        <div class="score-item">
+            <span class="score-label">Cobertura</span>
+            <span class="score-value">ARG</span>
         </div>
     </div>
 
