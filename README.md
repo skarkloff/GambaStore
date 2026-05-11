@@ -1,55 +1,115 @@
-# GambaStore - Gestión de Inventario de Botines
+# GambaStore - Tienda de Botines de Futbol
 
-¡Bienvenido a **GambaStore**! Este es un sistema de gestión de inventario (CRUD) desarrollado con **Laravel 12** y **MongoDB**, diseñado específicamente para una tienda de calzado deportivo. El proyecto implementa una arquitectura moderna, manejo de imágenes en la nube y una estética visual **Neo-Brutalista**.
+**GambaStore** es una aplicacion web de gestion de inventario de botines desarrollada con **Laravel 12**, **Google Cloud Firestore** y desplegada en **Vercel**. Implementa una estetica visual retro inspirada en los videojuegos de futbol de los 2000.
 
-## 🚀 Características Principales
+## Tecnologias
 
-* **CRUD Completo**: Gestión total de productos (Crear, Leer, Actualizar y Eliminar).
-* **Base de Datos NoSQL**: Integración nativa con **MongoDB Atlas** para un esquema flexible.
-* **Imágenes en la Nube**: Almacenamiento y procesamiento de imágenes mediante la API de **Cloudinary**.
-* **Arquitectura MVC**: Separación clara de responsabilidades (Modelos, Vistas y Controladores).
-* **Validación de Datos**: Reglas estrictas para asegurar la integridad de la información.
+| Capa | Tecnologia |
+|---|---|
+| Framework | Laravel 12 / PHP 8.2 |
+| Base de datos | Google Cloud Firestore (NoSQL) |
+| Almacenamiento de imagenes | Cloudinary |
+| Deploy | Vercel (serverless PHP) |
+| Frontend | Blade + Tailwind CSS + Vite |
+| Tipografia | Press Start 2P / Oswald (Google Fonts) |
 
-## 🛠️ Tecnologías Utilizadas
+## Arquitectura
 
-* **Framework**: Laravel 12.x
-* **Lenguaje**: PHP 8.5.x
-* **Base de Datos**: MongoDB (vía `mongodb/laravel-mongodb`)
-* **Almacenamiento**: Cloudinary (SDK de PHP)
-* **Estilos**: CSS3 con diseño Brutalista (Tipografías pesadas, sombras planas, colores vibrantes).
+El proyecto sigue el patron **MVC** de Laravel con una particularidad: en lugar del ORM Eloquent (que trabaja con SQL), usa un **modelo custom** que se comunica directamente con Firestore via el SDK de Google Cloud.
 
-## 💡 Buenas Prácticas Implementadas
+```
+Request HTTP
+    -> routes/web.php          (URLs)
+    -> ProductController       (logica)
+    -> Product::all/create/... (modelo custom)
+    -> FirestoreService        (wrapper SDK Google)
+    -> Firestore (Google Cloud) (base de datos)
+```
 
-### 1. Gestión de Variables de Entorno
-Se utiliza el archivo `.env` para almacenar credenciales sensibles (Cloudinary, MongoDB). **Nunca** se hardcodean llaves de API en el código fuente, facilitando la portabilidad y seguridad del proyecto.
+### Estructura de archivos relevante
 
-### 2. Procesamiento de Datos (Strings a Arrays)
-Para los **talles** de los botines, el sistema recibe un String separado por comas desde el frontend y lo transforma en un **Array** antes de guardarlo en MongoDB. 
-- **Ventaja**: Facilita futuras implementaciones de filtros de búsqueda por talle.
+```
+app/
+├── Http/Controllers/
+│   └── ProductController.php   # CRUD de productos
+├── Models/
+│   └── Product.php             # Modelo sin Eloquent, habla con Firestore
+└── Services/
+    └── FirestoreService.php    # Conexion con Google Cloud Firestore
 
-### 3. Carga Eficiente de Imágenes (Cloudinary)
-En lugar de saturar el servidor local, las imágenes se envían directamente a Cloudinary.
-- Se implementó una **instanciación manual del SDK** para evitar conflictos de carga en el Service Container.
-- Se maneja la persistencia de la URL en la base de datos para asegurar una carga rápida vía CDN.
+resources/views/
+├── welcome.blade.php           # Landing page (/)
+└── products/
+    ├── index.blade.php         # Listado /admin/productos
+    ├── create.blade.php        # Formulario nuevo producto
+    └── edit.blade.php          # Formulario edicion
 
-### 4. Seguridad y Validación
-- **Validación del lado del servidor**: Se utiliza `$request->validate()` para asegurar que los precios sean numéricos, el stock sea entero y los archivos subidos sean realmente imágenes.
-- **Bypass de SSL en Desarrollo**: Se configuró un manejo de contexto HTTP para evitar errores de certificados locales (`verify => false`) sin comprometer el entorno de producción.
+database/seeders/
+└── ProductSeeder.php           # 8 botines de prueba
 
-### 5. Interfaz de Usuario (UX)
-- Uso de `@method('PUT')` y `@method('DELETE')` para cumplir con los estándares de verbos HTTP.
-- Implementación de `enctype="multipart/form-data"` indispensable para el envío de binarios.
-- Mensajes de confirmación y vistas previas de imágenes en la edición.
+api/
+├── index.php                   # Entry point para Vercel
+└── php.ini                     # Extensiones PHP para produccion
+```
 
-## 📂 Estructura del Proyecto (Desarrollo)
+## Decisiones de arquitectura
 
-1.  **Modelos**: `Product.php` configurado para extender de `MongoDB\Laravel\Eloquent\Model`.
-2.  **Controladores**: `ProductController.php` centraliza la lógica de negocio y comunicación con APIs externas.
-3.  **Vistas**: Localizadas en `resources/views/products/`, utilizando **Blade** como motor de plantillas.
-4.  **Rutas**: Rutas protegidas bajo el prefijo `/admin` para la gestión administrativa.
+### Firestore en lugar de SQL
+El modelo `Product` no extiende de `Eloquent\Model`. Implementa sus propios metodos estaticos (`all`, `create`, `findOrFail`) que interactuan directamente con la coleccion `products` de Firestore. Esto elimina la necesidad de migraciones y permite un esquema flexible.
 
-## 📝 Notas de Desarrollo
-Durante el desarrollo se superaron retos técnicos importantes, como la configuración de cURL en entornos Windows y la integración de proveedores de servicios en la nueva estructura minimalista de Laravel 12.
+### Credenciales en dos entornos
+- **Local**: `GOOGLE_APPLICATION_CREDENTIALS` apunta al archivo `.json` de la service account.
+- **Vercel**: `FIREBASE_CREDENTIALS` contiene el JSON inline como variable de entorno. `FirestoreService` detecta cual usar automaticamente.
+
+### Imagenes con Cloudinary
+Las imagenes no se almacenan en el servidor. El controller sube el archivo a Cloudinary y persiste solo la URL en Firestore. Esto es compatible con el modelo serverless de Vercel, que no tiene sistema de archivos persistente.
+
+### Deploy serverless en Vercel
+`vercel.json` define que todo request que no sea un asset estatico se redirige a `api/index.php`, que bootstrapea Laravel. Las vistas compiladas, caches y archivos temporales (incluyendo las credenciales de Firebase) van a `/tmp`.
+
+## Instalacion local
+
+```bash
+composer install
+cp .env.example .env
+php artisan key:generate
+npm install && npm run build
+```
+
+Configurar en `.env`:
+
+```
+GOOGLE_APPLICATION_CREDENTIALS=/ruta/a/firebase-credentials.json
+FIREBASE_PROJECT_ID=tu-project-id
+CLOUDINARY_CLOUD_NAME=...
+CLOUDINARY_API_KEY=...
+CLOUDINARY_API_SECRET=...
+```
+
+Levantar el servidor:
+
+```bash
+composer run dev
+```
+
+Cargar datos de prueba:
+
+```bash
+php artisan db:seed --class=ProductSeeder
+```
+
+## Rutas
+
+| Metodo | URL | Descripcion |
+|---|---|---|
+| GET | `/` | Landing page |
+| GET | `/admin/productos` | Listado de productos |
+| GET | `/admin/productos/nuevo` | Formulario nuevo producto |
+| POST | `/admin/productos/guardar` | Guardar producto |
+| GET | `/admin/productos/{id}/editar` | Formulario edicion |
+| PUT | `/admin/productos/{id}` | Actualizar producto |
+| DELETE | `/admin/productos/{id}` | Eliminar producto |
 
 ---
-Desarrollado para el Laboratorio de **Aplicaciones Web**. 2026.
+Desarrollado para el Laboratorio de **Aplicaciones Web** -- 2026.
+Lautaro Skarkloff & Patricio Zappellini.
