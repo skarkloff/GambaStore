@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamba Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --yellow: #ffde00;
@@ -18,7 +18,7 @@
 
         body {
             background-color: var(--gray-bg);
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -35,7 +35,7 @@
         }
 
         .logo {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: 2rem;
             color: var(--yellow);
             letter-spacing: 4px;
@@ -81,7 +81,7 @@
         }
 
         .hero-left h1 {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: clamp(5rem, 10vw, 9rem);
             line-height: 0.9;
             color: var(--black);
@@ -115,7 +115,7 @@
         }
 
         .stat-value {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: 2rem;
             color: var(--yellow);
             letter-spacing: 2px;
@@ -138,7 +138,7 @@
         .feature-card:last-child { border-right: none; }
 
         .feature-num {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: 1rem;
             letter-spacing: 3px;
             color: #bbb;
@@ -147,7 +147,7 @@
         }
 
         .feature-card h3 {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: 2rem;
             letter-spacing: 1px;
             color: var(--black);
@@ -161,10 +161,10 @@
 
         .feature-card p {
             font-family: 'Oswald', sans-serif;
-            font-size: 0.9rem;
-            font-weight: 400;
-            line-height: 1.7;
-            color: #555;
+            font-size: 1.15rem;
+            font-weight: 600;
+            line-height: 1.6;
+            color: #333;
             margin-top: 14px;
         }
 
@@ -179,7 +179,7 @@
         }
 
         .footer-brand {
-            font-family: 'Bebas Neue', sans-serif;
+            font-family: 'Pixelify Sans', sans-serif;
             font-size: 1.1rem;
             letter-spacing: 4px;
             color: var(--yellow);
