@@ -7,6 +7,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/debug-firestore', function () {
+    try {
+        $raw = env('FIREBASE_CREDENTIALS', '');
+        $creds = json_decode($raw, true);
+        $collection = \App\Services\FirestoreService::collection('products');
+        $docs = $collection->documents();
+        return response()->json(['ok' => true, 'project' => env('FIREBASE_PROJECT_ID'), 'creds_type' => $creds['type'] ?? 'null']);
+    } catch (\Throwable $e) {
+        return response()->json(['error' => $e->getMessage(), 'class' => get_class($e)], 500);
+    }
+});
+
 
 // 1. La ruta para VER el listado 
 Route::get('/admin/productos', [ProductController::class, 'index'])->name('products.index');
