@@ -7,29 +7,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/debug-firestore', function () {
-    try {
-        $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
-        file_put_contents($tmpFile, env('FIREBASE_CREDENTIALS', '{}'));
-        putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
-
-        $db = new \Google\Cloud\Firestore\FirestoreClient([
-            'projectId' => env('FIREBASE_PROJECT_ID'),
-        ]);
-
-        $count = 0;
-        foreach ($db->collection('products')->documents() as $d) { $count++; }
-
-        return response()->json(['ok' => true, 'docs' => $count]);
-    } catch (\Throwable $e) {
-        return response()->json([
-            'error' => $e->getMessage(),
-            'class' => get_class($e),
-            'file'  => basename($e->getFile()) . ':' . $e->getLine(),
-        ]);
-    }
-});
-
 
 // 1. La ruta para VER el listado 
 Route::get('/admin/productos', [ProductController::class, 'index'])->name('products.index');
