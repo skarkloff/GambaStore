@@ -9,25 +9,23 @@ Route::get('/', function () {
 
 Route::get('/debug-firestore', function () {
     try {
-        $credentialsJson = env('FIREBASE_CREDENTIALS', '{}');
         $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
-        file_put_contents($tmpFile, $credentialsJson);
+        file_put_contents($tmpFile, env('FIREBASE_CREDENTIALS', '{}'));
+        putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
 
         $db = new \Google\Cloud\Firestore\FirestoreClient([
-            'projectId'   => env('FIREBASE_PROJECT_ID'),
-            'keyFilePath' => $tmpFile,
+            'projectId' => env('FIREBASE_PROJECT_ID'),
         ]);
 
-        $docs = $db->collection('products')->documents();
         $count = 0;
-        foreach ($docs as $d) { $count++; }
+        foreach ($db->collection('products')->documents() as $d) { $count++; }
 
         return response()->json(['ok' => true, 'docs' => $count]);
     } catch (\Throwable $e) {
         return response()->json([
-            'error'   => $e->getMessage(),
-            'class'   => get_class($e),
-            'file'    => basename($e->getFile()) . ':' . $e->getLine(),
+            'error' => $e->getMessage(),
+            'class' => get_class($e),
+            'file'  => basename($e->getFile()) . ':' . $e->getLine(),
         ]);
     }
 });

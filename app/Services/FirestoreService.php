@@ -11,13 +11,12 @@ class FirestoreService
     private static function client(): FirestoreClient
     {
         if (self::$client === null) {
-            $credentialsJson = env('FIREBASE_CREDENTIALS', '{}');
             $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
-            file_put_contents($tmpFile, $credentialsJson);
+            file_put_contents($tmpFile, env('FIREBASE_CREDENTIALS', '{}'));
+            putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
 
             self::$client = new FirestoreClient([
-                'projectId'   => env('FIREBASE_PROJECT_ID'),
-                'keyFilePath' => $tmpFile,
+                'projectId' => env('FIREBASE_PROJECT_ID'),
             ]);
         }
         return self::$client;
