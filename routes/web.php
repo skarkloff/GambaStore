@@ -7,6 +7,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/debug-ext', function () {
+    return response()->json([
+        'mongodb_loaded' => extension_loaded('mongodb'),
+        'php_version'    => PHP_VERSION,
+        'extensions'     => get_loaded_extensions(),
+    ]);
+});
+
 
 // 1. La ruta para VER el listado 
 Route::get('/admin/productos', [ProductController::class, 'index'])->name('products.index');
