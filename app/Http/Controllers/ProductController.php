@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use Cloudinary\Cloudinary;
 
-
 class ProductController extends Controller
 {
     public function index()
@@ -33,7 +32,6 @@ class ProductController extends Controller
             'descripcion' => 'nullable',
         ]);
 
-        // CONFIGURACIÓN MANUAL DIRECTA (Saltamos el ServiceProvider)
         $cloudinary = new Cloudinary([
             'cloud' => [
                 'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
@@ -42,27 +40,24 @@ class ProductController extends Controller
             ],
         ]);
 
-        // SUBIDA USANDO EL SDK DIRECTO
-        $file = $request->file('imagen');
-        $upload = $cloudinary->uploadApi()->upload($file->getRealPath(), [
-            'folder' => 'gamba-store'
+        $upload = $cloudinary->uploadApi()->upload($request->file('imagen')->getRealPath(), [
+            'folder' => 'gamba-store',
         ]);
 
-        // Guardamos la URL que nos devuelve el array de Cloudinary
         $data['imagen_url'] = $upload['secure_url'];
 
         if (!empty($data['talles'])) {
             $data['talles'] = array_map('trim', explode(',', $data['talles']));
         }
 
-        \App\Models\Product::create($data);
+        Product::create($data);
 
         return redirect()->route('products.index');
     }
 
     public function edit($id)
     {
-        $product = \App\Models\Product::findOrFail($id);
+        $product = Product::findOrFail($id);
         return view('products.edit', compact('product'));
     }
 
@@ -71,29 +66,30 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $data = $request->validate([
-            'nombre' => 'required',
-            'marca' => 'required',
-            'modelo' => 'required',
-            'precio' => 'required|numeric',
-            'stock' => 'required|integer',
-            'talles' => 'nullable',
-            'imagen' => 'nullable|image|max:2048',
+            'nombre'      => 'required',
+            'marca'       => 'required',
+            'modelo'      => 'required',
+            'precio'      => 'required|numeric',
+            'stock'       => 'required|integer',
+            'talles'      => 'nullable',
+            'imagen'      => 'nullable|image|max:2048',
             'descripcion' => 'nullable',
         ]);
 
         if ($request->hasFile('imagen')) {
-            // !!! IMPORTANTE: Agregamos la configuración también acá !!!
-            config([
-                'cloudinary.cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
-                'cloudinary.api_key'    => env('CLOUDINARY_API_KEY'),
-                'cloudinary.api_secret' => env('CLOUDINARY_API_SECRET'),
+            $cloudinary = new Cloudinary([
+                'cloud' => [
+                    'cloud_name' => env('CLOUDINARY_CLOUD_NAME'),
+                    'api_key'    => env('CLOUDINARY_API_KEY'),
+                    'api_secret' => env('CLOUDINARY_API_SECRET'),
+                ],
             ]);
 
-            $uploadedFileUrl = Cloudinary::upload($request->file('imagen')->getRealPath(), [
-                'folder' => 'gamba-store'
-            ])->getSecurePath();
-            
-            $data['imagen_url'] = $uploadedFileUrl;
+            $upload = $cloudinary->uploadApi()->upload($request->file('imagen')->getRealPath(), [
+                'folder' => 'gamba-store',
+            ]);
+
+            $data['imagen_url'] = $upload['secure_url'];
         } else {
             $data['imagen_url'] = $product->imagen_url;
         }
@@ -108,13 +104,8 @@ class ProductController extends Controller
 
     public function destroy($id)
     {
-        // 1. Buscamos el producto en MongoDB
-        $product = \App\Models\Product::findOrFail($id);
-
-        // 2. Lo eliminamos
+        $product = Product::findOrFail($id);
         $product->delete();
-
-        // 3. Redirigimos con un mensaje de éxito
         return redirect()->route('products.index')->with('success', 'Botín eliminado correctamente');
     }
 }

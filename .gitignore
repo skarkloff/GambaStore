@@ -32,4 +32,4 @@ Thumbs.db
 # Herramientas de sistema y logs
 npm-debug.log*
 yarn-error.log*
-.phpunit.cache/
+.phpunit.cache/*.json.secret\ngamba-store-ec6bf-firebase-adminsdk-fbsvc-7fe68d9a8d.json
