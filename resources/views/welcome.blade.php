@@ -4,197 +4,194 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamba Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --black: #111111;
             --yellow: #ffde00;
-            --gray-light: #d6d6d6;
-            --gray-mid: #aaaaaa;
-            --white: #f0f0f0;
-            --shadow: #000000;
+            --black: #000000;
+            --gray-bg: #e0e0e0;
+            --gray-dark: #2a2a2a;
+            --white: #ffffff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--black);
-            color: var(--white);
-            font-family: 'Press Start 2P', monospace;
+            background-color: var(--gray-bg);
+            font-family: 'Bebas Neue', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            padding: 30px;
         }
 
-        /* HEADER */
+        /* ── HEADER ── */
         header {
             background-color: var(--black);
-            border: 4px solid var(--yellow);
-            box-shadow: 6px 6px 0px var(--yellow);
-            padding: 18px 28px;
+            border-bottom: 5px solid var(--black);
+            padding: 0 40px;
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 30px;
+            align-items: stretch;
+            height: 70px;
         }
 
         .logo {
-            font-size: 1rem;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
             color: var(--yellow);
-            text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 4px;
+            display: flex;
+            align-items: center;
+            padding-right: 30px;
+            border-right: 3px solid #333;
         }
 
-        .header-badge {
-            font-size: 0.45rem;
+        .header-tag {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.7rem;
+            font-weight: 400;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--gray-mid);
-            border: 2px solid #333;
-            padding: 6px 12px;
+            letter-spacing: 3px;
+            color: #666;
+            display: flex;
+            align-items: center;
+            padding-left: 30px;
         }
 
-        /* HERO */
+        /* ── HERO ── */
         .hero {
             background-color: var(--yellow);
-            border: 6px solid var(--shadow);
-            box-shadow: 12px 12px 0px var(--shadow);
+            border-bottom: 6px solid var(--black);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .hero-left {
+            padding: 60px 40px;
+            border-right: 6px solid var(--black);
+        }
+
+        .hero-eyebrow {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: #555;
+            margin-bottom: 16px;
+        }
+
+        .hero-left h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(5rem, 10vw, 9rem);
+            line-height: 0.9;
+            color: var(--black);
+            letter-spacing: 2px;
+        }
+
+        .hero-right {
+            background-color: var(--black);
             padding: 50px 40px;
-            margin-bottom: 30px;
-            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 30px;
         }
 
-        .hero h1 {
-            font-family: 'Press Start 2P', monospace;
-            font-size: clamp(2rem, 5vw, 4.5rem);
-            text-transform: uppercase;
-            color: var(--shadow);
-            line-height: 1.3;
-            margin-bottom: 20px;
+        .stat-row {
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
         }
 
-        .hero-line {
-            width: 60px;
-            height: 5px;
-            background: var(--shadow);
-            margin: 0 auto 20px;
-        }
+        .stat-row:last-child { border-bottom: none; padding-bottom: 0; }
 
-        .hero-sub {
-            font-size: 0.45rem;
-            text-transform: uppercase;
+        .stat-label {
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.65rem;
+            font-weight: 400;
             letter-spacing: 4px;
-            color: #333;
-            line-height: 2;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 6px;
         }
 
-        /* FEATURES */
+        .stat-value {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            color: var(--yellow);
+            letter-spacing: 2px;
+        }
+
+        /* ── FEATURES ── */
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            margin-bottom: 30px;
+            border-bottom: 6px solid var(--black);
+            flex: 1;
         }
 
         .feature-card {
-            background-color: var(--gray-light);
-            border: 4px solid var(--shadow);
-            box-shadow: 7px 7px 0px var(--shadow);
-            padding: 30px 24px;
-            color: var(--shadow);
+            background-color: var(--white);
+            padding: 40px 36px;
+            border-right: 5px solid var(--black);
         }
 
-        .feature-number {
-            font-size: 0.45rem;
+        .feature-card:last-child { border-right: none; }
+
+        .feature-num {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1rem;
             letter-spacing: 3px;
-            color: #555;
-            text-transform: uppercase;
-            margin-bottom: 14px;
+            color: #bbb;
             display: block;
+            margin-bottom: 16px;
         }
 
         .feature-card h3 {
-            font-size: 0.6rem;
-            text-transform: uppercase;
-            color: var(--shadow);
-            margin-bottom: 14px;
-            line-height: 1.6;
-            border-left: 4px solid var(--yellow);
-            padding-left: 10px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 2rem;
+            letter-spacing: 1px;
+            color: var(--black);
+            line-height: 1;
+            margin-bottom: 12px;
+            background-color: var(--yellow);
+            display: inline-block;
+            padding: 2px 10px 0;
+            box-shadow: 4px 4px 0px var(--black);
         }
 
         .feature-card p {
-            font-size: 0.5rem;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
-            line-height: 1.8;
-            color: #444;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 400;
+            line-height: 1.7;
+            color: #555;
+            margin-top: 14px;
         }
 
-        /* SCOREBOARD */
-        .scoreboard {
-            background-color: var(--gray-light);
-            border: 4px solid var(--shadow);
-            box-shadow: 8px 8px 0px var(--shadow);
-            padding: 24px 30px;
-            margin-bottom: 30px;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0;
-        }
-
-        .score-item {
-            padding: 16px 24px;
-            border-right: 3px solid #aaa;
-            color: var(--shadow);
-        }
-
-        .score-item:last-child { border-right: none; }
-
-        .score-label {
-            font-size: 0.4rem;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            color: #666;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        .score-value {
-            font-size: 1rem;
-            color: var(--shadow);
-            line-height: 1;
-            background-color: var(--yellow);
-            display: inline-block;
-            padding: 6px 12px;
-            border: 3px solid var(--shadow);
-            box-shadow: 4px 4px 0px var(--shadow);
-        }
-
-        /* FOOTER */
+        /* ── FOOTER ── */
         footer {
-            border: 3px solid #2a2a2a;
-            padding: 16px 24px;
+            background-color: var(--black);
+            border-top: 5px solid var(--black);
+            padding: 16px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: auto;
         }
 
         .footer-brand {
-            font-size: 0.5rem;
-            text-transform: uppercase;
-            letter-spacing: 3px;
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.1rem;
+            letter-spacing: 4px;
             color: var(--yellow);
         }
 
         .footer-credits {
-            font-size: 0.35rem;
-            font-family: Arial, sans-serif;
-            color: #333;
+            font-family: 'Oswald', sans-serif;
+            font-size: 0.6rem;
+            font-weight: 400;
+            color: #444;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
@@ -202,43 +199,43 @@
 
     <header>
         <span class="logo">Gamba Store</span>
-        <span class="header-badge">Est. 2025 — Botines de fútbol</span>
+        <span class="header-tag">Botines de fútbol</span>
     </header>
 
     <section class="hero">
-        <h1>GAMBA<br>STORE</h1>
-        <div class="hero-line"></div>
-        <p class="hero-sub">Tu tienda de botines — Envíos a todo el país</p>
+        <div class="hero-left">
+            <p class="hero-eyebrow">Temporada 2026</p>
+            <h1>GAMBA<br>STORE</h1>
+        </div>
+        <div class="hero-right">
+            <div class="stat-row">
+                <div class="stat-label">Especialidad</div>
+                <div class="stat-value">Botines de fútbol</div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label">Envíos</div>
+                <div class="stat-value">Todo el país</div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-label">Stock</div>
+                <div class="stat-value">Actualizado</div>
+            </div>
+        </div>
     </section>
-
-    <div class="scoreboard">
-        <div class="score-item">
-            <span class="score-label">Temporada</span>
-            <span class="score-value">2026</span>
-        </div>
-        <div class="score-item">
-            <span class="score-label">Especialidad</span>
-            <span class="score-value">BOTINES</span>
-        </div>
-        <div class="score-item">
-            <span class="score-label">Cobertura</span>
-            <span class="score-value">ARG</span>
-        </div>
-    </div>
 
     <section class="features">
         <div class="feature-card">
-            <span class="feature-number">— 01</span>
+            <span class="feature-num">— 01</span>
             <h3>Marcas top</h3>
             <p>Nike, Adidas, Puma y más. Solo lo que vale la pena pisar.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-number">— 02</span>
+            <span class="feature-num">— 02</span>
             <h3>Clásicos que no mueren</h3>
             <p>Modelos retro que marcaron épocas. El botín que usaba tu ídolo, ahora en tu pie.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-number">— 03</span>
+            <span class="feature-num">— 03</span>
             <h3>Precio directo</h3>
             <p>Sin intermediarios ni markups escondidos. Lo que ves, es lo que pagás.</p>
         </div>
