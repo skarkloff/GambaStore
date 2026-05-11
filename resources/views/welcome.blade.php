@@ -6,202 +6,235 @@
     <title>Gamba Store</title>
     <style>
         :root {
-            --black: #0a0a0a;
+            --bg: #0a0a0a;
             --yellow: #ffde00;
-            --white: #f5f5f5;
-            --gray: #1c1c1c;
+            --white: #ffffff;
             --border: #ffde00;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
-            background-color: var(--black);
+            background-color: var(--bg);
             color: var(--white);
             font-family: 'Arial Black', Gadget, sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            padding: 40px;
         }
 
         /* HEADER */
         header {
-            padding: 24px 60px;
             display: flex;
             align-items: center;
-            border-bottom: 2px solid #222;
+            justify-content: space-between;
+            border: 4px solid var(--border);
+            padding: 16px 30px;
+            margin-bottom: 40px;
+            background-color: var(--bg);
+            box-shadow: 8px 8px 0px var(--yellow);
         }
 
         .logo {
-            font-size: 1.4rem;
+            font-size: 1.3rem;
             color: var(--yellow);
             text-transform: uppercase;
-            letter-spacing: 4px;
+            letter-spacing: 6px;
         }
 
-        .logo span {
-            color: var(--white);
+        .header-badge {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            color: var(--yellow);
+            border: 2px solid var(--yellow);
+            padding: 6px 14px;
+            opacity: 0.6;
         }
 
         /* HERO */
         .hero {
-            flex: 1;
-            padding: 100px 60px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            border-bottom: 2px solid #222;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .hero::before {
-            content: 'GS';
-            position: absolute;
-            right: -20px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 30rem;
-            font-weight: 900;
-            color: #141414;
-            line-height: 1;
-            pointer-events: none;
-            user-select: none;
-        }
-
-        .hero-tag {
-            font-size: 0.75rem;
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            color: var(--yellow);
-            margin-bottom: 24px;
-            font-family: Arial, sans-serif;
-            font-weight: 700;
+            border: 6px solid var(--yellow);
+            box-shadow: 12px 12px 0px var(--yellow);
+            background-color: var(--yellow);
+            padding: 60px 50px;
+            margin-bottom: 40px;
+            text-align: center;
         }
 
         .hero h1 {
-            font-size: clamp(3rem, 8vw, 7rem);
+            font-size: clamp(3.5rem, 9vw, 8rem);
             text-transform: uppercase;
-            line-height: 0.95;
-            color: var(--white);
-            margin-bottom: 32px;
+            line-height: 0.9;
+            color: var(--bg);
+            letter-spacing: -2px;
+            margin-bottom: 16px;
         }
 
-        .hero h1 em {
-            font-style: normal;
-            color: var(--yellow);
-            border-bottom: 6px solid var(--yellow);
+        .hero-divider {
+            width: 80px;
+            height: 6px;
+            background: var(--bg);
+            margin: 20px auto;
         }
 
         .hero-sub {
-            font-size: 1rem;
-            font-family: Arial, sans-serif;
-            font-weight: 400;
-            color: #888;
+            font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            max-width: 400px;
+            letter-spacing: 5px;
+            color: var(--bg);
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            opacity: 0.7;
         }
 
         /* FEATURES */
         .features {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 40px;
         }
 
         .feature-card {
-            padding: 50px 50px;
-            border-right: 2px solid #222;
-            border-bottom: 2px solid #222;
+            border: 4px solid var(--yellow);
+            padding: 36px 30px;
+            box-shadow: 8px 8px 0px var(--yellow);
+            background-color: var(--bg);
+            position: relative;
         }
 
-        .feature-card:last-child { border-right: none; }
-
         .feature-number {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             letter-spacing: 4px;
             color: var(--yellow);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+            display: block;
             font-family: Arial, sans-serif;
             font-weight: 700;
-            margin-bottom: 20px;
-            display: block;
         }
 
         .feature-card h3 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
+            color: var(--yellow);
             margin-bottom: 14px;
-            color: var(--white);
+            line-height: 1.1;
         }
 
         .feature-card p {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-family: Arial, sans-serif;
             line-height: 1.7;
             font-weight: 400;
-            color: #777;
+            color: #aaa;
         }
 
-        .feature-accent {
-            display: inline-block;
-            width: 30px;
-            height: 4px;
+        /* SCOREBOARD */
+        .scoreboard {
+            border: 4px solid var(--yellow);
+            box-shadow: 10px 10px 0px var(--yellow);
+            background-color: var(--bg);
+            padding: 30px 40px;
+            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .scoreboard-label {
+            font-size: 0.65rem;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            color: var(--yellow);
+            font-family: Arial, sans-serif;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .scoreboard-value {
+            font-size: 3rem;
+            color: var(--white);
+            line-height: 1;
+        }
+
+        .scoreboard-divider {
+            width: 4px;
+            height: 60px;
             background: var(--yellow);
-            margin-bottom: 20px;
+            opacity: 0.3;
         }
 
         /* FOOTER */
         footer {
-            border-top: 2px solid #222;
-            padding: 20px 60px;
+            border: 3px solid #333;
+            padding: 16px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
         }
 
         .footer-brand {
             font-size: 0.8rem;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 4px;
             color: var(--yellow);
         }
 
         .footer-credits {
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             font-family: Arial, sans-serif;
             color: #444;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
     </style>
 </head>
 <body>
 
     <header>
-        <span class="logo">Gamba<span>Store</span></span>
+        <span class="logo">Gamba Store</span>
+        <span class="header-badge">Botines de fútbol</span>
     </header>
 
     <section class="hero">
-        <p class="hero-tag">Botines de fútbol</p>
-        <h1>El botín<br>que te hace<br><em>jugar mejor</em></h1>
-        <p class="hero-sub">Stock actualizado — Envíos a todo el país</p>
+        <h1>Gamba<br>Store</h1>
+        <div class="hero-divider"></div>
+        <p class="hero-sub">Tu tienda de botines</p>
     </section>
+
+    <div class="scoreboard">
+        <div>
+            <div class="scoreboard-label">Temporada</div>
+            <div class="scoreboard-value">2026</div>
+        </div>
+        <div class="scoreboard-divider"></div>
+        <div>
+            <div class="scoreboard-label">Especialidad</div>
+            <div class="scoreboard-value">BOTINES</div>
+        </div>
+        <div class="scoreboard-divider"></div>
+        <div>
+            <div class="scoreboard-label">Envíos</div>
+            <div class="scoreboard-value">TODO ARG</div>
+        </div>
+    </div>
 
     <section class="features">
         <div class="feature-card">
-            <span class="feature-accent"></span>
             <span class="feature-number">— 01</span>
             <h3>Marcas top</h3>
             <p>Nike, Adidas, Puma y más. Solo lo que vale la pena pisar.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-accent"></span>
             <span class="feature-number">— 02</span>
-            <h3>Stock real</h3>
-            <p>Talles y unidades actualizados en tiempo real. Sin vender lo que no hay.</p>
+            <h3>Clásicos que no mueren</h3>
+            <p>Modelos retro que marcaron épocas. El botín que usaba tu ídolo, ahora en tu pie.</p>
         </div>
         <div class="feature-card">
-            <span class="feature-accent"></span>
             <span class="feature-number">— 03</span>
             <h3>Precio directo</h3>
             <p>Sin intermediarios ni markups escondidos. Lo que ves, es lo que pagás.</p>
@@ -210,7 +243,7 @@
 
     <footer>
         <span class="footer-brand">Gamba Store</span>
-        <span class="footer-credits">Lautaro Skarkloff &amp; Patricio Zappellini — 2025</span>
+        <span class="footer-credits">Lautaro Skarkloff &amp; Patricio Zappellini — 2026</span>
     </footer>
 
 </body>
