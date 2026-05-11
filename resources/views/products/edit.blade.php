@@ -1,5 +1,5 @@
 <style>
-    body { background: #ffffff; font-family: 'Arial Black', sans-serif; padding: 40px; }
+    body { background: #b8b8b8; font-family: 'Arial Black', sans-serif; padding: 40px; }
     h1 { background: #ffde00; display: inline-block; padding: 10px 20px; border: 5px solid #000; box-shadow: 8px 8px 0px #000; text-transform: uppercase; }
     form { border: 5px solid #000; padding: 30px; box-shadow: 15px 15px 0px #000; max-width: 700px; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .field { display: flex; flex-direction: column; }

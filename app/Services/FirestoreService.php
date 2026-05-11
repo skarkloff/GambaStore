@@ -11,9 +11,14 @@ class FirestoreService
     private static function client(): FirestoreClient
     {
         if (self::$client === null) {
-            $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
-            file_put_contents($tmpFile, env('FIREBASE_CREDENTIALS', '{}'));
-            putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
+            $credentials = env('FIREBASE_CREDENTIALS');
+            if ($credentials) {
+                // Vercel: JSON inline en variable de entorno
+                $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
+                file_put_contents($tmpFile, $credentials);
+                putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
+            }
+            // Local: GOOGLE_APPLICATION_CREDENTIALS apunta al archivo .json directamente
 
             self::$client = new FirestoreClient([
                 'projectId' => env('FIREBASE_PROJECT_ID'),

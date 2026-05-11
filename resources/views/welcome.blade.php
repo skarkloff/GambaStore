@@ -4,24 +4,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gamba Store</title>
-    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;700&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
             --yellow: #ffde00;
             --black: #000000;
-            --gray-bg: #e0e0e0;
+            --gray-bg: #b8b8b8;
             --gray-dark: #2a2a2a;
-            --white: #ffffff;
+            --white: #c8c8c8;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             background-color: var(--gray-bg);
-            font-family: 'Pixelify Sans', sans-serif;
+            font-family: 'Press Start 2P', monospace;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: none;
+            -moz-osx-font-smoothing: unset;
+            font-smooth: never;
         }
 
         /* ── HEADER ── */
@@ -30,13 +33,35 @@
             border-bottom: 5px solid var(--black);
             padding: 0 40px;
             display: flex;
-            align-items: stretch;
+            align-items: center;
+            justify-content: space-between;
             height: 70px;
         }
 
+        .btn-admin {
+            font-family: 'Press Start 2P', monospace;
+            font-size: 13px;
+            color: var(--black);
+            background-color: var(--yellow);
+            text-decoration: none;
+            text-transform: uppercase;
+            padding: 8px 14px;
+            border: 4px solid var(--yellow);
+            box-shadow: 5px 5px 0px var(--yellow);
+            letter-spacing: 2px;
+            -webkit-text-stroke: 0.5px var(--black);
+            transition: all 0.1s;
+            display: inline-block;
+        }
+
+        .btn-admin:active {
+            box-shadow: 0px 0px 0px var(--yellow);
+            transform: translate(4px, 4px);
+        }
+
         .logo {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 24px;
             color: var(--yellow);
             letter-spacing: 4px;
             display: flex;
@@ -81,9 +106,9 @@
         }
 
         .hero-left h1 {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: clamp(5rem, 10vw, 9rem);
-            line-height: 0.9;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 64px;
+            line-height: 1.4;
             color: var(--black);
             letter-spacing: 2px;
         }
@@ -115,8 +140,8 @@
         }
 
         .stat-value {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 24px;
             color: var(--yellow);
             letter-spacing: 2px;
         }
@@ -138,33 +163,33 @@
         .feature-card:last-child { border-right: none; }
 
         .feature-num {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: 1rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 8px;
             letter-spacing: 3px;
-            color: #bbb;
+            color: #888;
             display: block;
             margin-bottom: 16px;
         }
 
         .feature-card h3 {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: 2rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 24px;
             letter-spacing: 1px;
             color: var(--black);
-            line-height: 1;
+            line-height: 1.6;
             margin-bottom: 12px;
             background-color: var(--yellow);
             display: inline-block;
-            padding: 2px 10px 0;
+            padding: 4px 12px;
             box-shadow: 4px 4px 0px var(--black);
         }
 
         .feature-card p {
             font-family: 'Oswald', sans-serif;
-            font-size: 1.15rem;
+            font-size: 1.3rem;
             font-weight: 600;
             line-height: 1.6;
-            color: #333;
+            color: #222;
             margin-top: 14px;
         }
 
@@ -179,8 +204,8 @@
         }
 
         .footer-brand {
-            font-family: 'Pixelify Sans', sans-serif;
-            font-size: 1.1rem;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 16px;
             letter-spacing: 4px;
             color: var(--yellow);
         }
@@ -198,8 +223,8 @@
 <body>
 
     <header>
-        <span class="logo">Gamba Store</span>
         <span class="header-tag">Botines de fútbol</span>
+        <a href="{{ route('products.index') }}" class="btn-admin">Panel de Control</a>
     </header>
 
     <section class="hero">

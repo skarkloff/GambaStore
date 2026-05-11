@@ -1,6 +1,6 @@
 <style>
     :root {
-        --bg: #ffffff;
+        --bg: #b8b8b8;
         --accent: #ffde00; /* Amarillo potente */
         --text: #000000;
         --border: #000000;
