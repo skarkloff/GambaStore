@@ -45,6 +45,7 @@ class ProductController extends Controller
         ]);
 
         $data['imagen_url'] = $upload['secure_url'];
+        unset($data['imagen']);
 
         if (!empty($data['talles'])) {
             $data['talles'] = array_map('trim', explode(',', $data['talles']));
@@ -93,6 +94,8 @@ class ProductController extends Controller
         } else {
             $data['imagen_url'] = $product->imagen_url;
         }
+
+        unset($data['imagen']);
 
         if (isset($data['talles']) && is_string($data['talles'])) {
             $data['talles'] = array_map('trim', explode(',', $data['talles']));
