@@ -6,8 +6,11 @@
     .full-width { grid-column: span 2; }
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
     input, textarea { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
-    .btn-save { grid-column: span 2; background: #00ffff; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; margin-top: 10px; }
+    .btn-group { grid-column: span 2; display: flex; gap: 15px; margin-top: 10px; }
+    .btn-save { flex: 1; background: #00ffff; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-family: 'Arial Black', sans-serif; font-size: 1.4rem; }
     .btn-save:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
+    .btn-cancel { flex: 1; background: #ff4545; color: white; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-family: 'Arial Black', sans-serif; font-size: 1.4rem; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+    .btn-cancel:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
 </style>
 
 <h1>EDITAR BOTÍN / {{ $product->nombre }}</h1>
@@ -64,5 +67,8 @@
         <textarea name="descripcion" rows="3">{{ $product->descripcion }}</textarea>
     </div>
 
-    <button type="submit" class="btn-save">ACTUALIZAR DATOS</button>
+    <div class="btn-group">
+        <button type="submit" class="btn-save">ACTUALIZAR DATOS</button>
+        <a href="{{ route('products.index') }}" class="btn-cancel">CANCELAR</a>
+    </div>
 </form>
