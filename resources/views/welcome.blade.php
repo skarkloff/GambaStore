@@ -224,7 +224,7 @@
 
     <header>
         <span class="header-tag">Botines de fútbol</span>
-        <a href="{{ route('products.index') }}" class="btn-admin">Panel de Control</a>
+        <a href="{{ route('admin.dashboard') }}" class="btn-panel">PANEL DE CONTROL</a>
     </header>
 
     <section class="hero">

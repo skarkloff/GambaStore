@@ -1,7 +1,7 @@
 <style>
     :root {
         --bg: #b8b8b8;
-        --accent: #ffde00; /* Amarillo potente */
+        --accent: #00ffff; /* Celeste potente para diferenciar secciones */
         --text: #000000;
         --border: #000000;
     }
@@ -83,57 +83,46 @@
         transform: translate(4px, 4px);
     }
 
-    .btn-edit { background: #00ff00; margin-right: 10px; color: black; }
+    .btn-edit { background: #ffde00; margin-right: 10px; color: black; }
     .btn-delete { background: #ff4545; color: white; }
-
-    .img-container {
-        width: 80px;
-        height: 80px;
-        border: 3px solid var(--border);
-        background: #f0f0f0;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 </style>
 
 <div class="container">
-    <h1>PANEL DE CONTROL / GAMBASTORE</h1>
-    <span class="subtitle">Gestión de stock para personal autorizado.</span>
-    <div style="margin-bottom: 30px;">
-    <a href="{{ route('products.create') }}" class="btn" style="background-color: #00ffff; font-size: 1.2rem;">
-        AGREGAR NUEVO PRODUCTO +
-    </a>
+    <h1>PANEL DE CONTROL / USUARIOS</h1>
+    <span class="subtitle">Gestión de credenciales para personal autorizado.</span>
+    
+    <div style="margin-bottom: 30px; display: flex; gap: 15px;">
+        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
+            ← VOLVER AL MENÚ
+        </a>
+        <a href="{{ route('users.create') }}" class="btn" style="background-color: #00ff00; font-size: 1.2rem; color: #000000;">
+            AGREGAR NUEVO USUARIO +
+        </a>
     </div>
+
     <table>
         <thead>
             <tr>
-                <th>Imagen</th>
-                <th>Botín</th>
-                <th>Marca</th>
-                <th>Precio</th>
-                <th>Stock</th>
+                <th>ID Firestore</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Rol</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($products as $product)
+            @foreach($users as $user)
             <tr>
+                <td><code style="font-family: monospace;">{{ $user->id }}</code></td>
+                <td>{{ $user->name }}</td>
+                <td>{{ $user->email }}</td>
+                <td>{{ strtoupper($user->rol) }}</td>
                 <td>
-                    <div class="img-container">
-                        <img src="{{ $product->imagen_url }}" width="100%" alt="FOTO">
-                    </div>
-                </td>
-                <td>{{ $product->nombre }}</td>
-                <td>{{ $product->marca }}</td>
-                <td>${{ number_format($product->precio, 0, ',', '.') }}</td>
-                <td>{{ $product->stock }} UNIDADES</td>
-                <td>
-                    <a href="{{ route('products.edit', $product->id) }}" class="btn btn-edit">EDITAR</a>
-                    <form action = "{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-edit">EDITAR</a>
+                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">ELIMINAR</button>
+                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">ELIMINAR</button>
                     </form>
                 </td>
             </tr>

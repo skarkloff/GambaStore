@@ -1,4 +1,6 @@
 *.log
+Dockerfile
+.dockerignore
 .DS_Store
 .env
 .env.backup
