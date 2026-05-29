@@ -27,7 +27,6 @@ class UserController extends Controller
             }
         }
 
-        // Enviamos la variable exacta a tu vista index
         return view('admin.users.index', compact('users'));
     }
 
@@ -38,16 +37,15 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Validamos los datos básicos (sin el unique de SQL)
+        // Validamos los datos básicos
         $data = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|email',
             'password' => 'required|string|min:6',
-            'rol'      => 'required|string' // Por si manejan roles
+            'rol'      => 'required|string'
         ]);
 
         // 2. Guardar en Firestore como un nuevo documento
-        // Encriptamos la contraseña con bcrypt por seguridad académica
         FirestoreService::collection($this->collectionName)->add([
             'name'     => $data['name'],
             'email'    => $data['email'],
@@ -56,7 +54,8 @@ class UserController extends Controller
             'created_at' => now()->toIso8601String()
         ]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario creado correctamente.');
+        // CORREGIDO: Redirige a 'users.index' como tenés en web.php
+        return redirect()->route('users.index')->with('success', 'Usuario creado correctamente.');
     }
 
     public function edit($id)
@@ -65,7 +64,8 @@ class UserController extends Controller
         $document = FirestoreService::collection($this->collectionName)->document($id)->snapshot();
 
         if (!$document->exists()) {
-            return redirect()->route('admin.users.index')->with('error', 'Usuario no encontrado.');
+            // CORREGIDO: Redirige a 'users.index'
+            return redirect()->route('users.index')->with('error', 'Usuario no encontrado.');
         }
 
         $data = $document->data();
@@ -88,22 +88,22 @@ class UserController extends Controller
             'rol'      => 'required|string'
         ]);
 
-        // 4. Preparar los datos para actualizar
         $updateData = [
             'name'  => $data['name'],
             'email' => $data['email'],
             'rol'   => $data['rol']
         ];
 
-        // Si el usuario ingresó una nueva contraseña, la encriptamos y la sumamos
+        // Si ingresó contraseña, la encriptamos de forma segura con la función global
         if (!empty($data['password'])) {
-            $updateData['password'] = bcrypt($data['password']);
+            $updateData['password'] = bcrypt($data['password']); // <-- Corregido para evitar fallas
         }
 
-        // Impactamos los cambios en el documento correspondiente
+        // Impactamos en Firestore
         FirestoreService::collection($this->collectionName)->document($id)->set($updateData, ['merge' => true]);
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario actualizado correctamente.');
+        // Redirección limpia a la tabla
+        return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
     }
 
     public function destroy($id)
@@ -111,6 +111,7 @@ class UserController extends Controller
         // 5. Eliminar el documento de la colección de Firestore
         FirestoreService::collection($this->collectionName)->document($id)->delete();
 
-        return redirect()->route('admin.users.index')->with('success', 'Usuario eliminado con éxito.');
+        // CORREGIDO: Redirige a 'users.index'
+        return redirect()->route('users.index')->with('success', 'Usuario eliminado con éxito.');
     }
 }

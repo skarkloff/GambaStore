@@ -1,0 +1,105 @@
+<style>
+    :root {
+        --bg: #b8b8b8;
+        --accent: #ffde00; /* Amarillo potente para diferenciar que es una edición */
+        --text: #000000;
+        --border: #000000;
+    }
+
+    body {
+        background-color: var(--bg);
+        color: var(--text);
+        font-family: 'Arial Black', Gadget, sans-serif;
+        padding: 40px;
+        line-height: 1.2;
+    }
+
+    .form-box {
+        background: white;
+        border: 6px solid var(--border);
+        box-shadow: 15px 15px 0px var(--border);
+        padding: 40px;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .form-group {
+        margin-bottom: 25px;
+    }
+
+    label {
+        display: block;
+        text-transform: uppercase;
+        margin-bottom: 10px;
+        font-size: 1.1rem;
+        font-weight: 900;
+    }
+
+    input, select {
+        width: 100%;
+        padding: 12px;
+        border: 4px solid var(--border);
+        font-family: 'Arial Black', sans-serif;
+        font-size: 1rem;
+        box-sizing: border-box;
+    }
+
+    input:focus, select:focus {
+        outline: none;
+        background-color: #f0f0f0;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border: 4px solid var(--border);
+        font-weight: 900;
+        text-transform: uppercase;
+        cursor: pointer;
+        text-decoration: none;
+        display: inline-block;
+        box-shadow: 4px 4px 0px var(--border);
+        transition: all 0.1s;
+    }
+
+    .btn:active {
+        box-shadow: 0px 0px 0px var(--border);
+        transform: translate(4px, 4px);
+    }
+</style>
+
+<div class="form-box">
+    <h2 style="font-size: 2rem; margin-top: 0; text-transform: uppercase;">Editar Usuario</h2>
+    <span style="font-size: 0.9rem; font-family: monospace; display:block; margin-bottom: 20px;">ID: {{ $user->id }}</span>
+    <hr style="border: 3px solid var(--border); margin-bottom: 30px;">
+
+    <form action="{{ route('users.update', $user->id) }}" method="POST">
+        @csrf
+        @method('PUT') <div class="form-group">
+            <label>Nombre Completo</label>
+            <input type="text" name="name" value="{{ old('name', $user->name) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Correo Electrónico</label>
+            <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
+        </div>
+
+        <div class="form-group">
+            <label>Contraseña (Dejar en blanco para no cambiarla)</label>
+            <input type="password" name="password" placeholder="******">
+        </div>
+
+        <div class="form-group">
+            <label>Rol de Acceso</label>
+            <select name="rol" required>
+                <option value="Cliente" {{ $user->rol == 'Cliente' ? 'selected' : '' }}>CLIENTE</option>
+                <option value="Administrador" {{ $user->rol == 'Administrador' ? 'selected' : '' }}>ADMINISTRADOR</option>
+            </select>
+        </div>
+
+        <div style="margin-top: 40px;">
+            <button type="submit" class="btn" style="background: var(--accent); margin-right: 15px;">ACTUALIZAR ✔</button>
+            <a href="{{ route('users.index') }}" class="btn" style="background: #ffffff; color: #000;">VOLVER</a>
+        </div>
+    </form>
+</div>
