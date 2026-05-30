@@ -15,7 +15,9 @@
         letter-spacing: 3px;
         color: #ffde00;
         font-weight: 900;
+        text-decoration: none;
     }
+    .topbar-brand:hover { text-decoration: underline; }
     .topbar-right {
         display: flex;
         align-items: center;
@@ -49,7 +51,7 @@
 </style>
 
 <div class="topbar">
-    <span class="topbar-brand">GAMBASTORE / ADMIN</span>
+    <a href="{{ url('/') }}" class="topbar-brand">← GAMBASTORE / ADMIN</a>
     <div class="topbar-right">
         <span class="topbar-user">👤 {{ session('auth_user.usuario') }}</span>
         <a href="{{ route('admin.profile') }}" class="topbar-btn topbar-btn-profile">PERFIL</a>

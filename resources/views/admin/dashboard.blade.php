@@ -97,32 +97,9 @@
         font-size: 0.9rem;
     }
 
-    .btn-back {
-        display: inline-block;
-        padding: 10px 25px;
-        background-color: var(--yellow);
-        color: var(--text);
-        border: 4px solid var(--border);
-        box-shadow: 5px 5px 0px var(--border);
-        font-weight: 900;
-        font-size: 1rem;
-        text-transform: uppercase;
-        text-decoration: none;
-        transition: all 0.1s;
-        margin-bottom: 40px;
-    }
-
-    .btn-back:active {
-        box-shadow: 0px 0px 0px var(--border);
-        transform: translate(5px, 5px);
-    }
 </style>
 
 @include('partials.topbar')
-
-<div style="margin-bottom: 10px;">
-    <a href="{{ url('/') }}" class="btn-back">← VOLVER AL INICIO</a>
-</div>
 
 <div class="container">
     <h1>PANEL PRINCIPAL DE ADMINISTRACIÓN</h1>

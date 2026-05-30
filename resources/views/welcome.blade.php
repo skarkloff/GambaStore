@@ -265,7 +265,7 @@
         .modal-field { display: flex; flex-direction: column; margin-bottom: 18px; }
         .modal-field label { text-transform: uppercase; font-weight: 900; font-size: 0.85rem; margin-bottom: 6px; }
         .modal-field input { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; background: white; }
-        .modal-error { background: #ff4545; color: white; border: 3px solid #000; padding: 10px 14px; font-weight: 900; font-size: 0.85rem; text-transform: uppercase; margin-bottom: 18px; box-shadow: 3px 3px 0 #000; }
+        .modal-error-field { color: #cc0000; font-size: 0.85rem; margin-top: 5px; font-family: Arial, sans-serif; font-weight: bold; }
         .modal-btn-group { display: flex; gap: 12px; margin-top: 10px; }
         .modal-btn-submit { flex: 1; background: #00ff00; padding: 14px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.2rem; font-family: 'Arial Black', sans-serif; transition: all 0.1s; }
         .modal-btn-submit:active { box-shadow: 0 0 0; transform: translate(5px,5px); }
@@ -329,22 +329,17 @@
             <button class="modal-close" onclick="closeLoginModal()">✕</button>
             <div class="modal-title">INICIAR SESIÓN</div>
 
-            @if($errors->has('login'))
-                <div class="modal-error">{{ $errors->first('login') }}</div>
-            @endif
-
             <form method="POST" action="{{ route('login') }}">
                 @csrf
                 <div class="modal-field">
                     <label>Usuario o Correo</label>
-                    <input type="text" name="login" value="{{ old('login') }}" required autocomplete="username">
-                    @if($errors->has('login') === false && $errors->has('login'))
-                        <span style="color:#c00; font-size:0.8rem; margin-top:4px; font-weight:bold;">{{ $errors->first('login') }}</span>
-                    @endif
+                    <input type="text" name="login" value="{{ old('login') }}" autocomplete="username">
+                    @error('login') <span class="modal-error-field">{{ $message }}</span> @enderror
                 </div>
                 <div class="modal-field">
                     <label>Contraseña</label>
-                    <input type="password" name="password" required autocomplete="current-password">
+                    <input type="password" name="password" autocomplete="current-password">
+                    @error('password') <span class="modal-error-field">{{ $message }}</span> @enderror
                 </div>
                 <div class="modal-btn-group">
                     <button type="submit" class="modal-btn-submit">INGRESAR</button>
