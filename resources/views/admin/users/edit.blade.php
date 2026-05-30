@@ -1,130 +1,63 @@
 <style>
-    :root {
-        --bg: #b8b8b8;
-        --accent: #ffde00; /* Amarillo potente para diferenciar que es una edición */
-        --text: #000000;
-        --border: #000000;
-    }
-
-    body {
-        background-color: var(--bg);
-        color: var(--text);
-        font-family: 'Arial Black', Gadget, sans-serif;
-        padding: 40px;
-        line-height: 1.2;
-    }
-
-    .form-box {
-        background: white;
-        border: 6px solid var(--border);
-        box-shadow: 15px 15px 0px var(--border);
-        padding: 40px;
-        max-width: 600px;
-        margin: 0 auto;
-    }
-
-    .form-group {
-        margin-bottom: 25px;
-    }
-
-    label {
-        display: block;
-        text-transform: uppercase;
-        margin-bottom: 10px;
-        font-size: 1.1rem;
-        font-weight: 900;
-    }
-
-    input, select {
-        width: 100%;
-        padding: 12px;
-        border: 4px solid var(--border);
-        font-family: 'Arial Black', sans-serif;
-        font-size: 1rem;
-        box-sizing: border-box;
-    }
-
-    input:focus, select:focus {
-        outline: none;
-        background-color: #f0f0f0;
-    }
-
-    .error-msg {
-        color: #cc0000;
-        font-size: 0.85rem;
-        margin-top: 6px;
-        display: block;
-        font-family: Arial, sans-serif;
-        font-weight: bold;
-    }
-
-    .btn {
-        padding: 12px 25px;
-        border: 4px solid var(--border);
-        font-weight: 900;
-        text-transform: uppercase;
-        cursor: pointer;
-        text-decoration: none;
-        display: inline-block;
-        box-shadow: 4px 4px 0px var(--border);
-        transition: all 0.1s;
-    }
-
-    .btn:active {
-        box-shadow: 0px 0px 0px var(--border);
-        transform: translate(4px, 4px);
-    }
+    body { background: #b8b8b8; font-family: 'Arial Black', sans-serif; padding: 40px; }
+    h1 { background: #ffde00; display: inline-block; padding: 10px 20px; border: 5px solid #000; box-shadow: 8px 8px 0px #000; text-transform: uppercase; }
+    form { border: 5px solid #000; padding: 30px; box-shadow: 15px 15px 0px #000; max-width: 700px; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; background: #b8b8b8; }
+    .field { display: flex; flex-direction: column; }
+    .full-width { grid-column: span 2; }
+    label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
+    input, select { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
+    .hint { font-size: 0.8rem; font-family: Arial, sans-serif; color: #444; margin-top: 5px; }
+    .error-msg { color: #cc0000; font-size: 0.85rem; margin-top: 5px; font-family: Arial, sans-serif; font-weight: bold; }
+    .btn-group { grid-column: span 2; display: flex; gap: 15px; margin-top: 10px; }
+    .btn-save { flex: 1; background: #00ffff; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.4rem; font-family: 'Arial Black', sans-serif; }
+    .btn-save:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
+    .btn-cancel { flex: 1; background: #ff4545; color: white; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.4rem; font-family: 'Arial Black', sans-serif; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+    .btn-cancel:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
 </style>
 
-<div class="form-box">
-    <h2 style="font-size: 2rem; margin-top: 0; text-transform: uppercase;">Editar Usuario</h2>
-    <span style="font-size: 0.9rem; font-family: monospace; display:block; margin-bottom: 20px;">ID: {{ $user->id }}</span>
-    <hr style="border: 3px solid var(--border); margin-bottom: 30px;">
+<h1>EDITAR USUARIO / {{ $user->name }}</h1>
 
-    <form action="{{ route('users.update', $user->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+<form action="{{ route('users.update', $user->id) }}" method="POST">
+    @csrf
+    @method('PUT')
 
-        <div class="form-group">
-            <label>Nombre Completo</label>
-            <input type="text" name="name" value="{{ old('name', $user->name) }}" required>
-            @error('name') <span class="error-msg">{{ $message }}</span> @enderror
-        </div>
+    <div class="field">
+        <label>Nombre Completo</label>
+        <input type="text" name="name" value="{{ old('name', $user->name) }}" required>
+        @error('name') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
-        <div class="form-group">
-            <label>Usuario</label>
-            <input type="text" name="usuario" value="{{ old('usuario', $user->usuario) }}" required>
-            @error('usuario') <span class="error-msg">{{ $message }}</span> @enderror
-        </div>
+    <div class="field">
+        <label>Usuario</label>
+        <input type="text" name="usuario" value="{{ old('usuario', $user->usuario) }}" required>
+        @error('usuario') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
-        <div class="form-group">
-            <label>Correo Electrónico</label>
-            <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
-            @error('email') <span class="error-msg">{{ $message }}</span> @enderror
-        </div>
+    <div class="field">
+        <label>Correo Electrónico</label>
+        <input type="email" name="email" value="{{ old('email', $user->email) }}" required>
+        @error('email') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
-        <div class="form-group">
-            <label>Contraseña (Dejar en blanco para no cambiarla)</label>
-            <input type="password" name="password" placeholder="******">
-            <span style="font-size:0.8rem; font-family:Arial,sans-serif; color:#444; display:block; margin-top:5px;">
-                Mínimo 8 caracteres, al menos una mayúscula y un número.
-            </span>
-            @error('password') <span class="error-msg">{{ $message }}</span> @enderror
-        </div>
+    <div class="field">
+        <label>Contraseña</label>
+        <input type="password" name="password" placeholder="Dejar en blanco para no cambiar">
+        <span class="hint">Mínimo 8 caracteres, al menos una mayúscula y un número.</span>
+        @error('password') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
-        <div class="form-group">
-            <label>Rol de Acceso</label>
-            <select name="rol" required>
-                <option value="Cliente" {{ $user->rol == 'Cliente' ? 'selected' : '' }}>CLIENTE</option>
-                <option value="Empleado" {{ $user->rol == 'Empleado' ? 'selected' : '' }}>EMPLEADO</option>
-                <option value="Administrador" {{ $user->rol == 'Administrador' ? 'selected' : '' }}>ADMINISTRADOR</option>
-            </select>
-            @error('rol') <span class="error-msg">{{ $message }}</span> @enderror
-        </div>
+    <div class="field full-width">
+        <label>Rol de Acceso</label>
+        <select name="rol" required>
+            <option value="Cliente" {{ $user->rol == 'Cliente' ? 'selected' : '' }}>CLIENTE</option>
+            <option value="Empleado" {{ $user->rol == 'Empleado' ? 'selected' : '' }}>EMPLEADO</option>
+            <option value="Administrador" {{ $user->rol == 'Administrador' ? 'selected' : '' }}>ADMINISTRADOR</option>
+        </select>
+        @error('rol') <span class="error-msg">{{ $message }}</span> @enderror
+    </div>
 
-        <div style="margin-top: 40px;">
-            <button type="submit" class="btn" style="background: var(--accent); margin-right: 15px;">ACTUALIZAR ✔</button>
-            <a href="{{ route('users.index') }}" class="btn" style="background: #ffffff; color: #000;">VOLVER</a>
-        </div>
-    </form>
-</div>
+    <div class="btn-group">
+        <button type="submit" class="btn-save">ACTUALIZAR DATOS</button>
+        <a href="{{ route('users.index') }}" class="btn-cancel">CANCELAR</a>
+    </div>
+</form>

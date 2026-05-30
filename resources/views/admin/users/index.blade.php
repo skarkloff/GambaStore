@@ -83,7 +83,7 @@
         transform: translate(4px, 4px);
     }
 
-    .btn-edit { background: #ffde00; margin-right: 10px; color: black; }
+    .btn-edit { background: #00ff00; margin-right: 10px; color: black; }
     .btn-delete { background: #ff4545; color: white; }
 </style>
 
@@ -92,10 +92,10 @@
     <span class="subtitle">Gestión de credenciales para personal autorizado.</span>
     
     <div style="margin-bottom: 30px; display: flex; gap: 15px;">
-        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffde00; font-size: 1.2rem; color: #000000;">
+        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
             ← VOLVER AL PANEL
         </a>
-        <a href="{{ route('users.create') }}" class="btn" style="background-color: #00ff00; font-size: 1.2rem; color: #000000;">
+        <a href="{{ route('users.create') }}" class="btn" style="background-color: #00ffff; font-size: 1.2rem; color: #000000;">
             AGREGAR NUEVO USUARIO +
         </a>
     </div>
