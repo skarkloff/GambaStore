@@ -103,7 +103,7 @@
     
     <div style="margin-bottom: 30px; display: flex; gap: 15px;">
         <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
-            ← VOLVER AL MENÚ
+            ← VOLVER AL PANEL
         </a>
         <a href="{{ route('products.create') }}" class="btn" style="background-color: #00ffff; font-size: 1.2rem; color: #000000;">
             AGREGAR NUEVO PRODUCTO +

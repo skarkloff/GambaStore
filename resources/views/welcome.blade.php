@@ -38,7 +38,7 @@
             height: 70px;
         }
 
-        .btn-admin {
+        .btn-admin, .btn-panel {
             font-family: 'Press Start 2P', monospace;
             font-size: 13px;
             color: var(--black);
@@ -54,7 +54,7 @@
             display: inline-block;
         }
 
-        .btn-admin:active {
+        .btn-admin:active, .btn-panel:active {
             box-shadow: 0px 0px 0px var(--yellow);
             transform: translate(4px, 4px);
         }

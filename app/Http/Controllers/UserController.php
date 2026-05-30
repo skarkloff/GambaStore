@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\FirestoreService;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
@@ -19,10 +20,11 @@ class UserController extends Controller
             if ($document->exists()) {
                 $data = $document->data();
                 $users->push((object)[
-                    'id'    => $document->id(),
-                    'name'  => $data['name'] ?? 'Sin nombre',
-                    'email' => $data['email'] ?? 'Sin email',
-                    'rol'   => $data['rol'] ?? 'Cliente',
+                    'id'      => $document->id(),
+                    'name'    => $data['name'] ?? 'Sin nombre',
+                    'usuario' => $data['usuario'] ?? '',
+                    'email'   => $data['email'] ?? 'Sin email',
+                    'rol'     => $data['rol'] ?? 'Cliente',
                 ]);
             }
         }
@@ -40,17 +42,18 @@ class UserController extends Controller
         // Validamos los datos básicos
         $data = $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email',
-            'password' => 'required|string|min:6',
+            'usuario'  => 'required|string|max:50',
+            'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/'],
+            'password' => ['required', Password::min(8)->mixedCase()->numbers()],
             'rol'      => 'required|string'
         ]);
 
-        // 2. Guardar en Firestore como un nuevo documento
         FirestoreService::collection($this->collectionName)->add([
-            'name'     => $data['name'],
-            'email'    => $data['email'],
-            'password' => bcrypt($data['password']),
-            'rol'      => $data['rol'],
+            'name'       => $data['name'],
+            'usuario'    => $data['usuario'],
+            'email'      => $data['email'],
+            'password'   => bcrypt($data['password']),
+            'rol'        => $data['rol'],
             'created_at' => now()->toIso8601String()
         ]);
 
@@ -70,10 +73,11 @@ class UserController extends Controller
 
         $data = $document->data();
         $user = (object)[
-            'id'    => $document->id(),
-            'name'  => $data['name'] ?? '',
-            'email' => $data['email'] ?? '',
-            'rol'   => $data['rol'] ?? 'Cliente',
+            'id'      => $document->id(),
+            'name'    => $data['name'] ?? '',
+            'usuario' => $data['usuario'] ?? '',
+            'email'   => $data['email'] ?? '',
+            'rol'     => $data['rol'] ?? 'Cliente',
         ];
 
         return view('admin.users.edit', compact('user'));
@@ -83,15 +87,17 @@ class UserController extends Controller
     {
         $data = $request->validate([
             'name'     => 'required|string|max:255',
-            'email'    => 'required|email',
-            'password' => 'nullable|string|min:6',
+            'usuario'  => 'required|string|max:50',
+            'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/'],
+            'password' => ['nullable', Password::min(8)->mixedCase()->numbers()],
             'rol'      => 'required|string'
         ]);
 
         $updateData = [
-            'name'  => $data['name'],
-            'email' => $data['email'],
-            'rol'   => $data['rol']
+            'name'    => $data['name'],
+            'usuario' => $data['usuario'],
+            'email'   => $data['email'],
+            'rol'     => $data['rol']
         ];
 
         // Si ingresó contraseña, la encriptamos de forma segura con la función global

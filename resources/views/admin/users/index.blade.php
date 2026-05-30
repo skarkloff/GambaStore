@@ -92,8 +92,8 @@
     <span class="subtitle">Gestión de credenciales para personal autorizado.</span>
     
     <div style="margin-bottom: 30px; display: flex; gap: 15px;">
-        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
-            ← VOLVER AL MENÚ
+        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffde00; font-size: 1.2rem; color: #000000;">
+            ← VOLVER AL PANEL
         </a>
         <a href="{{ route('users.create') }}" class="btn" style="background-color: #00ff00; font-size: 1.2rem; color: #000000;">
             AGREGAR NUEVO USUARIO +
@@ -103,8 +103,8 @@
     <table>
         <thead>
             <tr>
-                <th>ID Firestore</th>
                 <th>Nombre</th>
+                <th>Usuario</th>
                 <th>Email</th>
                 <th>Rol</th>
                 <th>Acciones</th>
@@ -113,8 +113,8 @@
         <tbody>
             @foreach($users as $user)
             <tr>
-                <td><code style="font-family: monospace;">{{ $user->id }}</code></td>
                 <td>{{ $user->name }}</td>
+                <td>{{ $user->usuario ?: '—' }}</td>
                 <td>{{ $user->email }}</td>
                 <td>{{ strtoupper($user->rol) }}</td>
                 <td>
