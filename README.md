@@ -21,7 +21,7 @@ El proyecto sigue el patron **MVC** de Laravel con una particularidad: en lugar 
 Request HTTP
     -> routes/web.php          (URLs)
     -> ProductController       (logica)
-    -> Product::all/create/... (modelo custom)
+    -> Product::all/create/.. (modelo custom)
     -> FirestoreService        (wrapper SDK Google)
     -> Firestore (Google Cloud) (base de datos)
 ```

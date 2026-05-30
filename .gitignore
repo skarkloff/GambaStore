@@ -1,4 +1,6 @@
 *.log
+Dockerfile
+.dockerignore
 .DS_Store
 .env
 .env.backup
@@ -33,3 +35,4 @@ Thumbs.db
 npm-debug.log*
 yarn-error.log*
 .phpunit.cache/*.json.secret\ngamba-store-ec6bf-firebase-adminsdk-fbsvc-7fe68d9a8d.json
+.vercel

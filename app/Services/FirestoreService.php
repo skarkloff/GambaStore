@@ -12,17 +12,23 @@ class FirestoreService
     {
         if (self::$client === null) {
             $credentials = env('FIREBASE_CREDENTIALS');
+            
             if ($credentials) {
-                // Vercel: JSON inline en variable de entorno
+                // Flujo de tu compañero para Vercel
                 $tmpFile = sys_get_temp_dir() . '/firebase_credentials.json';
                 file_put_contents($tmpFile, $credentials);
                 putenv('GOOGLE_APPLICATION_CREDENTIALS=' . $tmpFile);
-            }
-            // Local: GOOGLE_APPLICATION_CREDENTIALS apunta al archivo .json directamente
 
-            self::$client = new FirestoreClient([
-                'projectId' => env('FIREBASE_PROJECT_ID'),
-            ]);
+                self::$client = new FirestoreClient([
+                    'projectId' => env('FIREBASE_PROJECT_ID'),
+                ]);
+            } else {
+                // TU FLUJO EN DOCKER (Lee el archivo mapeado en Linux)
+                self::$client = new FirestoreClient([
+                    'projectId' => env('FIREBASE_PROJECT_ID'),
+                    'keyFilePath' => env('GOOGLE_APPLICATION_CREDENTIALS'), // <-- Forzamos la ruta interna
+                ]);
+            }
         }
         return self::$client;
     }

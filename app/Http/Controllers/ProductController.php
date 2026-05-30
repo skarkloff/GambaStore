@@ -10,13 +10,14 @@ class ProductController extends Controller
 {
     public function index()
     {
-        $products = Product::all();
-        return view('products.index', compact('products'));
+        // Llama directo a Firestore usando el Service
+        $products = \App\Models\Product::all();
+        return view('admin.products.index', compact('products'));
     }
 
     public function create()
     {
-        return view('products.create');
+        return view('admin.products.create');
     }
 
     public function store(Request $request)
@@ -45,6 +46,7 @@ class ProductController extends Controller
         ]);
 
         $data['imagen_url'] = $upload['secure_url'];
+        unset($data['imagen']);
 
         if (!empty($data['talles'])) {
             $data['talles'] = array_map('trim', explode(',', $data['talles']));
@@ -52,13 +54,13 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('products.index');
+        return redirect()->route('admin.products.index');
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('products.edit', compact('product'));
+        return view('admin.products.edit', compact('product'));
     }
 
     public function update(Request $request, $id)
@@ -94,18 +96,20 @@ class ProductController extends Controller
             $data['imagen_url'] = $product->imagen_url;
         }
 
+        unset($data['imagen']);
+
         if (isset($data['talles']) && is_string($data['talles'])) {
             $data['talles'] = array_map('trim', explode(',', $data['talles']));
         }
 
         $product->update($data);
-        return redirect()->route('products.index');
+        return redirect()->route('admin.products.index');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('products.index')->with('success', 'Botín eliminado correctamente');
+        return redirect()->route('admin.products.index')->with('success', 'Botín eliminado correctamente');
     }
 }

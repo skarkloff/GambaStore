@@ -1,19 +1,24 @@
+@include('partials.topbar')
+
 <style>
     body { background: #b8b8b8; font-family: 'Arial Black', sans-serif; padding: 40px; }
     h1 { background: #ffde00; display: inline-block; padding: 10px 20px; border: 5px solid #000; box-shadow: 8px 8px 0px #000; text-transform: uppercase; }
-    form { border: 5px solid #000; padding: 30px; box-shadow: 15px 15px 0px #000; max-width: 700px; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+    form.main-form { border: 5px solid #000; padding: 30px; box-shadow: 15px 15px 0px #000; max-width: 700px; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .field { display: flex; flex-direction: column; }
     .full-width { grid-column: span 2; }
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
     input, textarea { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
-    .btn-save { grid-column: span 2; background: #00ff00; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; margin-top: 10px; font-size: 1.4rem; }
+    .btn-group { grid-column: span 2; display: flex; gap: 15px; margin-top: 10px; }
+    .btn-save { flex: 1; background: #00ff00; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.4rem; font-family: 'Arial Black', sans-serif; }
     .btn-save:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
+    .btn-cancel { flex: 1; background: #ff4545; color: white; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.4rem; font-family: 'Arial Black', sans-serif; text-decoration: none; display: flex; align-items: center; justify-content: center; }
+    .btn-cancel:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
 </style>
 
 <h1>NUEVO BOTÍN / GAMBASTORE</h1>
 
 
-<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
+<form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="main-form">
     @csrf
     <div class="field">
         <label>Nombre</label>
@@ -48,5 +53,8 @@
         <textarea name="descripcion" rows="3"></textarea>
     </div>
 
-    <button type="submit" class="btn-save">GUARDAR</button>
+    <div class="btn-group">
+        <button type="submit" class="btn-save">GUARDAR</button>
+        <a href="{{ route('products.index') }}" class="btn-cancel">CANCELAR</a>
+    </div>
 </form>
