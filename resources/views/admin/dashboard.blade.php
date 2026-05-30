@@ -88,6 +88,14 @@
 
     .products-variant { background-color: var(--yellow); }
     .users-variant { background-color: var(--cyan); }
+    .users-variant-disabled { background-color: #ccc; opacity: 0.45; cursor: not-allowed; pointer-events: none; }
+
+    .error-banner {
+        background: #ff4545; color: white; border: 4px solid #000;
+        padding: 12px 20px; font-weight: 900; text-transform: uppercase;
+        box-shadow: 5px 5px 0 #000; margin-bottom: 20px; max-width: 700px;
+        font-size: 0.9rem;
+    }
 
     .btn-back {
         display: inline-block;
@@ -110,6 +118,8 @@
     }
 </style>
 
+@include('partials.topbar')
+
 <div style="margin-bottom: 10px;">
     <a href="{{ url('/') }}" class="btn-back">← VOLVER AL INICIO</a>
 </div>
@@ -118,15 +128,26 @@
     <h1>PANEL PRINCIPAL DE ADMINISTRACIÓN</h1>
     <span class="subtitle">Seleccioná un módulo para comenzar la gestión de datos.</span>
 
+    @if(session('error'))
+        <div class="error-banner">{{ session('error') }}</div>
+    @endif
+
     <div class="menu-grid">
         <a href="{{ route('products.index') }}" class="menu-card products-variant">
             <span class="card-title">📦 STOCK</span>
             <span class="card-desc">Control de productos, marcas, precios y unidades disponibles.</span>
         </a>
 
-        <a href="{{ route('users.index') }}" class="menu-card users-variant">
-            <span class="card-title">👥 USUARIOS</span>
-            <span class="card-desc">Administración de credenciales, perfiles de acceso y roles de usuario.</span>
-        </a>
+        @if(session('auth_user.rol') === 'Administrador')
+            <a href="{{ route('users.index') }}" class="menu-card users-variant">
+                <span class="card-title">👥 USUARIOS</span>
+                <span class="card-desc">Administración de credenciales, perfiles de acceso y roles de usuario.</span>
+            </a>
+        @else
+            <div class="menu-card users-variant-disabled">
+                <span class="card-title">👥 USUARIOS</span>
+                <span class="card-desc">Sin acceso — se requiere rol Administrador.</span>
+            </div>
+        @endif
     </div>
 </div>

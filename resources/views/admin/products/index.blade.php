@@ -1,3 +1,5 @@
+@include('partials.topbar')
+
 <style>
     :root {
         --bg: #b8b8b8;
