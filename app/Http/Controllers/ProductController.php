@@ -54,7 +54,7 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('products.index');
     }
 
     public function edit($id)
@@ -103,13 +103,13 @@ class ProductController extends Controller
         }
 
         $product->update($data);
-        return redirect()->route('admin.products.index');
+        return redirect()->route('products.index');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Botín eliminado correctamente');
+        return redirect()->route('products.index')->with('success', 'Botín eliminado correctamente');
     }
 }
