@@ -7,6 +7,8 @@
     .field { display: flex; flex-direction: column; }
     .full-width { grid-column: span 2; }
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
+    .required-mark { color: #000; font-weight: 900; }
+    .required-note { grid-column: span 2; font-size: 0.85rem; font-weight: bold; color: #333; margin-top: -5px; }
     input, textarea { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
     .btn-group { grid-column: span 2; display: flex; gap: 15px; margin-top: 10px; }
     .btn-save { flex: 1; background: #00ff00; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-size: 1.4rem; font-family: 'Arial Black', sans-serif; }
@@ -21,23 +23,23 @@
 <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data" class="main-form">
     @csrf
     <div class="field">
-        <label>Nombre</label>
+        <label>Nombre <span class="required-mark">(*)</span></label>
         <input type="text" name="nombre" placeholder="Ej: Predator" required>
     </div>
     <div class="field">
-        <label>Marca</label>
+        <label>Marca <span class="required-mark">(*)</span></label>
         <input type="text" name="marca" placeholder="Ej: Adidas" required>
     </div>
     <div class="field">
-        <label>Modelo</label>
+        <label>Modelo <span class="required-mark">(*)</span></label>
         <input type="text" name="modelo" placeholder="Ej: 2026 Elite" required>
     </div>
     <div class="field">
-        <label>Precio ($)</label>
+        <label>Precio ($) <span class="required-mark">(*)</span></label>
         <input type="number" name="precio" required>
     </div>
     <div class="field">
-        <label>Stock Inicial</label>
+        <label>Stock Inicial <span class="required-mark">(*)</span></label>
         <input type="number" name="stock" required>
     </div>
     <div class="field">
@@ -45,13 +47,15 @@
         <input type="text" name="talles" placeholder="Ej: 40, 41, 42">
     </div>
     <div class="field full-width">
-        <label>Foto del Botín (Subir a la nube)</label>
+        <label>Foto del Botín (Subir a la nube) <span class="required-mark">(*)</span></label>
         <input type="file" name="imagen" accept="image/*" required>
     </div>
     <div class="field full-width">
         <label>Descripción del producto</label>
         <textarea name="descripcion" rows="3"></textarea>
     </div>
+
+    <p class="required-note"><span class="required-mark">(*)</span> Campo obligatorio</p>
 
     <div class="btn-group">
         <button type="submit" class="btn-save">GUARDAR</button>

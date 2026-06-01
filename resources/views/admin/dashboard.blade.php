@@ -88,7 +88,6 @@
 
     .products-variant { background-color: var(--yellow); }
     .users-variant { background-color: var(--cyan); }
-    .users-variant-disabled { background-color: #ccc; opacity: 0.45; cursor: not-allowed; pointer-events: none; }
 
     .error-banner {
         background: #ff4545; color: white; border: 4px solid #000;
@@ -120,11 +119,6 @@
                 <span class="card-title">👥 USUARIOS</span>
                 <span class="card-desc">Administración de credenciales, perfiles de acceso y roles de usuario.</span>
             </a>
-        @else
-            <div class="menu-card users-variant-disabled">
-                <span class="card-title">👥 USUARIOS</span>
-                <span class="card-desc">Sin acceso — se requiere rol Administrador.</span>
-            </div>
         @endif
     </div>
 </div>
