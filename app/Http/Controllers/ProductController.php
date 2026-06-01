@@ -25,15 +25,16 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nombre'      => 'required',
-            'marca_id'    => 'required|string',
-            'modelo'      => 'required',
-            'tipo'        => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
-            'precio'      => 'required|numeric',
-            'stock'       => 'required|integer',
-            'talles'      => 'nullable|string',
-            'imagen'      => 'required|image|max:2048',
-            'descripcion' => 'nullable',
+            'nombre'          => 'required',
+            'marca_id'        => 'required|string',
+            'modelo'          => 'required',
+            'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
+            'precio'          => 'required|numeric',
+            'talles'          => 'nullable|array',
+            'talles.*.talle'  => 'required|string',
+            'talles.*.stock'  => 'required|integer|min:0',
+            'imagen'          => 'required|image|max:2048',
+            'descripcion'     => 'nullable',
         ]);
 
         $cloudinary = new Cloudinary([
@@ -51,9 +52,10 @@ class ProductController extends Controller
         $data['imagen_url'] = $upload['secure_url'];
         unset($data['imagen']);
 
-        if (!empty($data['talles'])) {
-            $data['talles'] = array_map('trim', explode(',', $data['talles']));
-        }
+        $data['talles'] = array_values(array_map(
+            fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],
+            $data['talles'] ?? []
+        ));
 
         Product::create($data);
 
@@ -72,15 +74,16 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
 
         $data = $request->validate([
-            'nombre'      => 'required',
-            'marca_id'    => 'required|string',
-            'modelo'      => 'required',
-            'tipo'        => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
-            'precio'      => 'required|numeric',
-            'stock'       => 'required|integer',
-            'talles'      => 'nullable',
-            'imagen'      => 'nullable|image|max:2048',
-            'descripcion' => 'nullable',
+            'nombre'          => 'required',
+            'marca_id'        => 'required|string',
+            'modelo'          => 'required',
+            'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
+            'precio'          => 'required|numeric',
+            'talles'          => 'nullable|array',
+            'talles.*.talle'  => 'required|string',
+            'talles.*.stock'  => 'required|integer|min:0',
+            'imagen'          => 'nullable|image|max:2048',
+            'descripcion'     => 'nullable',
         ]);
 
         if ($request->hasFile('imagen')) {
@@ -103,9 +106,10 @@ class ProductController extends Controller
 
         unset($data['imagen']);
 
-        if (isset($data['talles']) && is_string($data['talles'])) {
-            $data['talles'] = array_map('trim', explode(',', $data['talles']));
-        }
+        $data['talles'] = array_values(array_map(
+            fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],
+            $data['talles'] ?? []
+        ));
 
         $product->update($data);
         return redirect()->route('products.index')->with('success', 'Botín actualizado correctamente');

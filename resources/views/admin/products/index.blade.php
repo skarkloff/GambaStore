@@ -147,7 +147,7 @@
                 <td>{{ $product->nombre }}</td>
                 <td>{{ $marcas[$product->marca_id] ?? '—' }}</td>
                 <td>${{ number_format($product->precio, 0, ',', '.') }}</td>
-                <td>{{ $product->stock }} UNIDADES</td>
+                <td>{{ $product->stockTotal() }} UNIDADES</td>
                 <td>
                     <a href="{{ route('products.edit', $product->id) }}" class="btn btn-edit">EDITAR</a>
                     <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">

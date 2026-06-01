@@ -15,6 +15,12 @@
     .btn-save:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
     .btn-cancel { flex: 1; background: #ff4545; color: white; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-family: 'Arial Black', sans-serif; font-size: 1.4rem; text-decoration: none; display: flex; align-items: center; justify-content: center; }
     .btn-cancel:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
+    .talles-table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+    .talles-table th { background: #000; color: #fff; padding: 8px 12px; text-align: left; font-size: 0.85rem; }
+    .talles-table td { padding: 6px 6px; border-bottom: 2px solid #000; }
+    .talles-table input { width: 100%; padding: 8px; border: 2px solid #000; font-weight: bold; font-size: 0.95rem; box-sizing: border-box; }
+    .btn-remove-row { background: #ff4545; color: white; border: 2px solid #000; padding: 6px 10px; font-weight: 900; cursor: pointer; font-family: 'Arial Black', sans-serif; }
+    .btn-add-row { margin-top: 10px; background: #ffde00; border: 3px solid #000; padding: 10px 20px; font-weight: 900; cursor: pointer; font-family: 'Arial Black', sans-serif; text-transform: uppercase; box-shadow: 4px 4px 0 #000; }
 </style>
 
 <h1>EDITAR BOTÍN / {{ $product->nombre }}</h1>
@@ -51,11 +57,6 @@
     </div>
 
     <div class="field">
-        <label>Stock <span class="required-mark">(*)</span></label>
-        <input type="number" name="stock" value="{{ $product->stock }}" required>
-    </div>
-
-    <div class="field">
         <label>Tipo <span class="required-mark">(*)</span></label>
         <select name="tipo" required>
             <option value="" disabled>— Seleccioná un tipo —</option>
@@ -68,17 +69,9 @@
     </div>
 
     <div class="field full-width">
-        <label>Talles</label>
-        <input type="text" 
-            name="talles" 
-            value="{{ is_array($product->talles) ? implode(', ', $product->talles) : $product->talles }}" 
-            placeholder="Ej: 38, 39, 40">
-    </div>
-
-    <div class="field full-width">
         <label>Actualizar Foto del Botín (Opcional)</label>
         <input type="file" name="imagen" accept="image/*">
-        
+
         @if($product->imagen_url)
             <p style="font-size: 0.8rem; margin-top: 5px;">Imagen actual:</p>
             <img src="{{ $product->imagen_url }}" alt="Vista previa" style="width: 100px; border: 2px solid #000; margin-top: 5px;">
@@ -90,6 +83,35 @@
         <textarea name="descripcion" rows="3">{{ $product->descripcion }}</textarea>
     </div>
 
+    <div class="field full-width">
+        <label>Talles y Stock</label>
+        <table class="talles-table">
+            <thead>
+                <tr>
+                    <th>TALLE</th>
+                    <th>STOCK</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="talles-body">
+                @forelse($product->talles as $i => $t)
+                <tr>
+                    <td><input type="text" name="talles[{{ $i }}][talle]" value="{{ is_array($t) ? $t['talle'] : $t }}" placeholder="Ej: 40"></td>
+                    <td><input type="number" name="talles[{{ $i }}][stock]" value="{{ is_array($t) ? $t['stock'] : 0 }}" min="0"></td>
+                    <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
+                </tr>
+                @empty
+                <tr>
+                    <td><input type="text" name="talles[0][talle]" placeholder="Ej: 40"></td>
+                    <td><input type="number" name="talles[0][stock]" value="0" min="0"></td>
+                    <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
+                </tr>
+                @endforelse
+            </tbody>
+        </table>
+        <button type="button" class="btn-add-row" onclick="addRow()">+ AGREGAR TALLE</button>
+    </div>
+
     <p class="required-note"><span class="required-mark">(*)</span> Campo obligatorio</p>
 
     <div class="btn-group">
@@ -97,3 +119,26 @@
         <a href="{{ route('products.index') }}" class="btn-cancel">CANCELAR</a>
     </div>
 </form>
+
+<script>
+let talleIndex = {{ count($product->talles) ?: 1 }};
+
+function addRow() {
+    const tbody = document.getElementById('talles-body');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td><input type="text" name="talles[${talleIndex}][talle]" placeholder="Ej: 40"></td>
+        <td><input type="number" name="talles[${talleIndex}][stock]" value="0" min="0"></td>
+        <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
+    `;
+    tbody.appendChild(tr);
+    talleIndex++;
+}
+
+function removeRow(btn) {
+    const tbody = document.getElementById('talles-body');
+    if (tbody.rows.length > 1) {
+        btn.closest('tr').remove();
+    }
+}
+</script>
