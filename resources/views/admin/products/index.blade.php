@@ -121,7 +121,7 @@
             AGREGAR NUEVO PRODUCTO +
         </a>
         <a href="{{ route('marcas.index') }}" class="btn" style="background-color: #ff8c00; font-size: 1.2rem; color: #000000;">
-            AGREGAR MARCA +
+            MARCAS
         </a>
     </div>
 
