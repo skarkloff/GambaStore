@@ -88,6 +88,12 @@
     .btn-edit { background: #00ff00; margin-right: 10px; color: black; }
     .btn-delete { background: #ff4545; color: white; }
 
+    .success-banner {
+        background: #00ff00; border: 4px solid #000; padding: 12px 20px;
+        font-weight: 900; text-transform: uppercase; box-shadow: 5px 5px 0 #000;
+        margin-bottom: 20px;
+    }
+
     .img-container {
         width: 80px;
         height: 80px;
@@ -103,12 +109,19 @@
     <h1>PANEL DE CONTROL / GAMBASTORE</h1>
     <span class="subtitle">Gestión de stock para personal autorizado.</span>
     
+    @if(session('success'))
+        <div class="success-banner">{{ session('success') }}</div>
+    @endif
+
     <div style="margin-bottom: 30px; display: flex; gap: 15px;">
         <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
             ← VOLVER AL PANEL
         </a>
         <a href="{{ route('products.create') }}" class="btn" style="background-color: #00ffff; font-size: 1.2rem; color: #000000;">
             AGREGAR NUEVO PRODUCTO +
+        </a>
+        <a href="{{ route('marcas.index') }}" class="btn" style="background-color: #ff8c00; font-size: 1.2rem; color: #000000;">
+            AGREGAR MARCA +
         </a>
     </div>
 
@@ -132,7 +145,7 @@
                     </div>
                 </td>
                 <td>{{ $product->nombre }}</td>
-                <td>{{ $product->marca }}</td>
+                <td>{{ $marcas[$product->marca_id] ?? '—' }}</td>
                 <td>${{ number_format($product->precio, 0, ',', '.') }}</td>
                 <td>{{ $product->stock }} UNIDADES</td>
                 <td>

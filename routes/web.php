@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\MarcaController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -30,6 +31,14 @@ Route::middleware('admin.auth')->group(function () {
     Route::delete('/admin/productos/{id}', [ProductController::class, 'destroy'])->name('products.destroy');
     Route::get('/admin/productos/{id}/editar', [ProductController::class, 'edit'])->name('products.edit');
     Route::put('/admin/productos/{id}', [ProductController::class, 'update'])->name('products.update');
+
+    // ── MARCAS ────────────────────────────
+    Route::get('/admin/marcas', [MarcaController::class, 'index'])->name('marcas.index');
+    Route::get('/admin/marcas/nueva', [MarcaController::class, 'create'])->name('marcas.create');
+    Route::post('/admin/marcas/guardar', [MarcaController::class, 'store'])->name('marcas.store');
+    Route::get('/admin/marcas/{id}/editar', [MarcaController::class, 'edit'])->name('marcas.edit');
+    Route::put('/admin/marcas/{id}', [MarcaController::class, 'update'])->name('marcas.update');
+    Route::delete('/admin/marcas/{id}', [MarcaController::class, 'destroy'])->name('marcas.destroy');
 
     // ── USUARIOS (solo Administrador) ──────
     Route::middleware('admin.role')->group(function () {

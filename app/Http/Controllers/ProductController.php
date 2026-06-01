@@ -4,28 +4,31 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Marca;
 use Cloudinary\Cloudinary;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        // Llama directo a Firestore usando el Service
-        $products = \App\Models\Product::all();
-        return view('admin.products.index', compact('products'));
+        $products = Product::all();
+        $marcas   = Marca::allAsMap();
+        return view('admin.products.index', compact('products', 'marcas'));
     }
 
     public function create()
     {
-        return view('admin.products.create');
+        $marcas = Marca::all();
+        return view('admin.products.create', compact('marcas'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
             'nombre'      => 'required',
-            'marca'       => 'required',
+            'marca_id'    => 'required|string',
             'modelo'      => 'required',
+            'tipo'        => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
             'precio'      => 'required|numeric',
             'stock'       => 'required|integer',
             'talles'      => 'nullable|string',
@@ -54,13 +57,14 @@ class ProductController extends Controller
 
         Product::create($data);
 
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Botín creado correctamente');
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        $marcas  = Marca::all();
+        return view('admin.products.edit', compact('product', 'marcas'));
     }
 
     public function update(Request $request, $id)
@@ -69,8 +73,9 @@ class ProductController extends Controller
 
         $data = $request->validate([
             'nombre'      => 'required',
-            'marca'       => 'required',
+            'marca_id'    => 'required|string',
             'modelo'      => 'required',
+            'tipo'        => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
             'precio'      => 'required|numeric',
             'stock'       => 'required|integer',
             'talles'      => 'nullable',
@@ -103,7 +108,7 @@ class ProductController extends Controller
         }
 
         $product->update($data);
-        return redirect()->route('products.index');
+        return redirect()->route('products.index')->with('success', 'Botín actualizado correctamente');
     }
 
     public function destroy($id)

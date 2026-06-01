@@ -9,7 +9,7 @@
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
     .required-mark { color: #000; font-weight: 900; }
     .required-note { grid-column: span 2; font-size: 0.85rem; font-weight: bold; color: #333; margin-top: -5px; }
-    input, textarea { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
+    input, textarea, select { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; background: white; }
     .btn-group { grid-column: span 2; display: flex; gap: 15px; margin-top: 10px; }
     .btn-save { flex: 1; background: #00ffff; padding: 15px; border: 4px solid #000; font-weight: 900; cursor: pointer; box-shadow: 5px 5px 0px #000; text-transform: uppercase; font-family: 'Arial Black', sans-serif; font-size: 1.4rem; }
     .btn-save:active { transform: translate(5px, 5px); box-shadow: 0px 0px 0px #000; }
@@ -30,7 +30,14 @@
 
     <div class="field">
         <label>Marca <span class="required-mark">(*)</span></label>
-        <input type="text" name="marca" value="{{ $product->marca }}" required>
+        <select name="marca_id" required>
+            <option value="" disabled>— Seleccioná una marca —</option>
+            @foreach($marcas as $marca)
+                <option value="{{ $marca->id }}" {{ $product->marca_id === $marca->id ? 'selected' : '' }}>
+                    {{ $marca->descripcion }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
     <div class="field">
@@ -46,6 +53,18 @@
     <div class="field">
         <label>Stock <span class="required-mark">(*)</span></label>
         <input type="number" name="stock" value="{{ $product->stock }}" required>
+    </div>
+
+    <div class="field">
+        <label>Tipo <span class="required-mark">(*)</span></label>
+        <select name="tipo" required>
+            <option value="" disabled>— Seleccioná un tipo —</option>
+            @foreach(\App\Models\Product::TIPOS as $tipo)
+                <option value="{{ $tipo }}" {{ $product->tipo === $tipo ? 'selected' : '' }}>
+                    {{ $tipo }}
+                </option>
+            @endforeach
+        </select>
     </div>
 
     <div class="field full-width">

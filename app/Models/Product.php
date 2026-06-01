@@ -6,10 +6,20 @@ use App\Services\FirestoreService;
 
 class Product
 {
+    const TIPOS = [
+        'Terreno firme',
+        'Terreno blando',
+        'Césped artificial',
+        'Pasto sintético',
+        'Interior',
+        'Retro',
+    ];
+
     public string $id = '';
     public string $nombre = '';
-    public string $marca = '';
+    public string $marca_id = '';
     public string $modelo = '';
+    public string $tipo = '';
     public float $precio = 0;
     public int $stock = 0;
     public array|string $talles = [];
@@ -20,8 +30,9 @@ class Product
     {
         $this->id          = $id;
         $this->nombre      = $data['nombre'] ?? '';
-        $this->marca       = $data['marca'] ?? '';
+        $this->marca_id    = $data['marca_id'] ?? '';
         $this->modelo      = $data['modelo'] ?? '';
+        $this->tipo        = $data['tipo'] ?? '';
         $this->precio      = (float) ($data['precio'] ?? 0);
         $this->stock       = (int) ($data['stock'] ?? 0);
         $this->talles      = $data['talles'] ?? [];
