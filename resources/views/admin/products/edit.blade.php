@@ -53,7 +53,7 @@
 
     <div class="field">
         <label>Precio <span class="required-mark">(*)</span></label>
-        <input type="number" name="precio" value="{{ $product->precio }}" required>
+        <input type="number" name="precio" value="{{ $product->precio }}" min="0" required>
     </div>
 
     <div class="field">
@@ -97,13 +97,13 @@
                 @forelse($product->talles as $i => $t)
                 <tr>
                     <td><input type="text" name="talles[{{ $i }}][talle]" value="{{ is_array($t) ? $t['talle'] : $t }}" placeholder="Ej: 40"></td>
-                    <td><input type="number" name="talles[{{ $i }}][stock]" value="{{ is_array($t) ? $t['stock'] : 0 }}" min="0"></td>
+                    <td><input type="number" name="talles[{{ $i }}][stock]" value="{{ is_array($t) ? max(1, (int)$t['stock']) : 1 }}" min="1"></td>
                     <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
                 </tr>
                 @empty
                 <tr>
                     <td><input type="text" name="talles[0][talle]" placeholder="Ej: 40"></td>
-                    <td><input type="number" name="talles[0][stock]" value="0" min="0"></td>
+                    <td><input type="number" name="talles[0][stock]" value="1" min="1"></td>
                     <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
                 </tr>
                 @endforelse
@@ -128,7 +128,7 @@ function addRow() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td><input type="text" name="talles[${talleIndex}][talle]" placeholder="Ej: 40"></td>
-        <td><input type="number" name="talles[${talleIndex}][stock]" value="0" min="0"></td>
+        <td><input type="number" name="talles[${talleIndex}][stock]" value="1" min="1"></td>
         <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
     `;
     tbody.appendChild(tr);

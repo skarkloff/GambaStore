@@ -47,7 +47,7 @@
     </div>
     <div class="field">
         <label>Precio ($) <span class="required-mark">(*)</span></label>
-        <input type="number" name="precio" required>
+        <input type="number" name="precio" min="0" required>
     </div>
     <div class="field">
         <label>Tipo <span class="required-mark">(*)</span></label>
@@ -79,7 +79,7 @@
             <tbody id="talles-body">
                 <tr>
                     <td><input type="text" name="talles[0][talle]" placeholder="Ej: 40"></td>
-                    <td><input type="number" name="talles[0][stock]" value="0" min="0"></td>
+                    <td><input type="number" name="talles[0][stock]" value="1" min="1"></td>
                     <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
                 </tr>
             </tbody>
@@ -103,7 +103,7 @@ function addRow() {
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td><input type="text" name="talles[${talleIndex}][talle]" placeholder="Ej: 40"></td>
-        <td><input type="number" name="talles[${talleIndex}][stock]" value="0" min="0"></td>
+        <td><input type="number" name="talles[${talleIndex}][stock]" value="1" min="1"></td>
         <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
     `;
     tbody.appendChild(tr);
