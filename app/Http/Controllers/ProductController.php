@@ -24,12 +24,14 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        $request->merge(['precio' => str_replace(',', '.', $request->input('precio', ''))]);
+
         $data = $request->validate([
             'nombre'          => 'required',
             'marca_id'        => 'required|string',
             'modelo'          => 'required',
             'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
-            'precio'          => 'required|numeric|min:0',
+            'precio'          => 'required|numeric|gt:0',
             'talles'          => 'nullable|array',
             'talles.*.talle'  => 'required|string',
             'talles.*.stock'  => 'required|integer|min:1',
@@ -52,6 +54,8 @@ class ProductController extends Controller
         $data['imagen_url'] = $upload['secure_url'];
         unset($data['imagen']);
 
+        $data['precio'] = (float) $data['precio'];
+
         $data['talles'] = array_values(array_map(
             fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],
             $data['talles'] ?? []
@@ -73,12 +77,14 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
 
+        $request->merge(['precio' => str_replace(',', '.', $request->input('precio', ''))]);
+
         $data = $request->validate([
             'nombre'          => 'required',
             'marca_id'        => 'required|string',
             'modelo'          => 'required',
             'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
-            'precio'          => 'required|numeric|min:0',
+            'precio'          => 'required|numeric|gt:0',
             'talles'          => 'nullable|array',
             'talles.*.talle'  => 'required|string',
             'talles.*.stock'  => 'required|integer|min:1',
@@ -105,6 +111,8 @@ class ProductController extends Controller
         }
 
         unset($data['imagen']);
+
+        $data['precio'] = (float) $data['precio'];
 
         $data['talles'] = array_values(array_map(
             fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],

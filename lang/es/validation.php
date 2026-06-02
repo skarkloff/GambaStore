@@ -18,11 +18,16 @@ return [
         'symbols'       => 'La :attribute debe contener al menos un símbolo.',
         'uncompromised' => 'La :attribute ingresada fue filtrada en una brecha de datos. Elegí otra.',
     ],
+    'gt' => [
+        'numeric' => 'El :attribute debe ser mayor que :value.',
+    ],
+    'numeric' => 'El campo :attribute debe ser un número.',
     'attributes' => [
         'name'     => 'nombre',
         'usuario'  => 'usuario',
         'email'    => 'correo electrónico',
         'password' => 'contraseña',
         'rol'      => 'rol',
+        'precio'   => 'precio',
     ],
 ];

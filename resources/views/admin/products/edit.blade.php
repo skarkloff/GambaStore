@@ -5,6 +5,7 @@
     h1 { background: #ffde00; display: inline-block; padding: 10px 20px; border: 5px solid #000; box-shadow: 8px 8px 0px #000; text-transform: uppercase; }
     form.main-form { border: 5px solid #000; padding: 30px; box-shadow: 15px 15px 0px #000; max-width: 700px; margin-top: 20px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
     .field { display: flex; flex-direction: column; }
+    .error-msg { color: #cc0000; font-size: 0.85rem; margin-top: 5px; font-family: Arial, sans-serif; font-weight: bold; }
     .full-width { grid-column: span 2; }
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
     .required-mark { color: #000; font-weight: 900; }
@@ -53,7 +54,7 @@
 
     <div class="field">
         <label>Precio <span class="required-mark">(*)</span></label>
-        <input type="number" name="precio" value="{{ $product->precio }}" min="0" required>
+        <input type="text" inputmode="decimal" name="precio" value="{{ old('precio', $product->precio) }}" required>
     </div>
 
     <div class="field">
@@ -96,13 +97,13 @@
             <tbody id="talles-body">
                 @forelse($product->talles as $i => $t)
                 <tr>
-                    <td><input type="text" name="talles[{{ $i }}][talle]" value="{{ is_array($t) ? $t['talle'] : $t }}" placeholder="Ej: 40"></td>
+                    <td><input type="text" name="talles[{{ $i }}][talle]" value="{{ is_array($t) ? $t['talle'] : $t }}" placeholder="Ej: 40" required></td>
                     <td><input type="number" name="talles[{{ $i }}][stock]" value="{{ is_array($t) ? max(1, (int)$t['stock']) : 1 }}" min="1"></td>
                     <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
                 </tr>
                 @empty
                 <tr>
-                    <td><input type="text" name="talles[0][talle]" placeholder="Ej: 40"></td>
+                    <td><input type="text" name="talles[0][talle]" placeholder="Ej: 40" required></td>
                     <td><input type="number" name="talles[0][stock]" value="1" min="1"></td>
                     <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
                 </tr>
@@ -121,13 +122,22 @@
 </form>
 
 <script>
+function validarPrecio(input) {
+    const val = parseFloat(input.value.replace(',', '.'));
+    input.setCustomValidity(isNaN(val) || val <= 0 ? 'El precio debe ser mayor que 0.' : '');
+}
+
+document.querySelector('input[name="precio"]').addEventListener('input', function () {
+    validarPrecio(this);
+});
+
 let talleIndex = {{ count($product->talles) ?: 1 }};
 
 function addRow() {
     const tbody = document.getElementById('talles-body');
     const tr = document.createElement('tr');
     tr.innerHTML = `
-        <td><input type="text" name="talles[${talleIndex}][talle]" placeholder="Ej: 40"></td>
+        <td><input type="text" name="talles[${talleIndex}][talle]" placeholder="Ej: 40" required></td>
         <td><input type="number" name="talles[${talleIndex}][stock]" value="1" min="1"></td>
         <td><button type="button" class="btn-remove-row" onclick="removeRow(this)">✕</button></td>
     `;
