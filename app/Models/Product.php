@@ -6,27 +6,41 @@ use App\Services\FirestoreService;
 
 class Product
 {
+    const TIPOS = [
+        'Terreno firme',
+        'Terreno blando',
+        'Césped artificial',
+        'Pasto sintético',
+        'Interior',
+        'Retro',
+    ];
+
     public string $id = '';
     public string $nombre = '';
-    public string $marca = '';
+    public string $marca_id = '';
     public string $modelo = '';
+    public string $tipo = '';
     public float $precio = 0;
-    public int $stock = 0;
-    public array|string $talles = [];
+    public array $talles = [];
     public string $imagen_url = '';
-    public string $descripcion = '';
+    public ?string $descripcion = '';
 
     public function __construct(array $data = [], string $id = '')
     {
         $this->id          = $id;
         $this->nombre      = $data['nombre'] ?? '';
-        $this->marca       = $data['marca'] ?? '';
+        $this->marca_id    = $data['marca_id'] ?? '';
         $this->modelo      = $data['modelo'] ?? '';
+        $this->tipo        = $data['tipo'] ?? '';
         $this->precio      = (float) ($data['precio'] ?? 0);
-        $this->stock       = (int) ($data['stock'] ?? 0);
         $this->talles      = $data['talles'] ?? [];
         $this->imagen_url  = $data['imagen_url'] ?? '';
         $this->descripcion = $data['descripcion'] ?? '';
+    }
+
+    public function stockTotal(): int
+    {
+        return (int) array_sum(array_column($this->talles, 'stock'));
     }
 
     public static function all(): array

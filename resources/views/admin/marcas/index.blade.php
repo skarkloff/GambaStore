@@ -3,7 +3,7 @@
 <style>
     :root {
         --bg: #b8b8b8;
-        --accent: #00ffff; /* Celeste potente para diferenciar secciones */
+        --accent: #ff8c00;
         --text: #000000;
         --border: #000000;
     }
@@ -16,10 +16,7 @@
         line-height: 1.2;
     }
 
-    .container {
-        max-width: 1200px;
-        margin: 0 auto;
-    }
+    .container { max-width: 800px; margin: 0 auto; }
 
     h1 {
         font-size: 3rem;
@@ -32,12 +29,7 @@
         margin-bottom: 10px;
     }
 
-    .subtitle {
-        font-weight: bold;
-        text-transform: uppercase;
-        margin-bottom: 40px;
-        display: block;
-    }
+    .subtitle { font-weight: bold; text-transform: uppercase; margin-bottom: 40px; display: block; }
 
     table {
         width: 100%;
@@ -63,9 +55,7 @@
         font-size: 1.1rem;
     }
 
-    tr:hover {
-        background-color: #f0f0f0;
-    }
+    tr:hover { background-color: #f0f0f0; }
 
     .btn {
         padding: 10px 20px;
@@ -78,14 +68,11 @@
         box-shadow: 4px 4px 0px var(--border);
         transition: all 0.1s;
         font-size: 0.9rem;
+        font-family: 'Arial Black', sans-serif;
     }
 
-    .btn:active {
-        box-shadow: 0px 0px 0px var(--border);
-        transform: translate(4px, 4px);
-    }
-
-    .btn-edit { background: #00ff00; margin-right: 10px; color: black; }
+    .btn:active { box-shadow: 0px 0px 0px var(--border); transform: translate(4px, 4px); }
+    .btn-edit   { background: #00ff00; margin-right: 10px; color: black; }
     .btn-delete { background: #ff4545; color: white; }
 
     .success-banner {
@@ -96,49 +83,50 @@
 </style>
 
 <div class="container">
-    <h1>PANEL DE CONTROL / USUARIOS</h1>
-    <span class="subtitle">Gestión de credenciales para personal autorizado.</span>
-    
+    <h1>MARCAS / GAMBASTORE</h1>
+    <span class="subtitle">Gestión del catálogo de marcas.</span>
+
     @if(session('success'))
         <div class="success-banner">{{ session('success') }}</div>
     @endif
 
     <div style="margin-bottom: 30px; display: flex; gap: 15px;">
-        <a href="{{ route('admin.dashboard') }}" class="btn" style="background-color: #ffffff; font-size: 1.2rem; color: #000000;">
-            ← VOLVER AL PANEL
+        <a href="{{ route('products.index') }}" class="btn" style="background: #fff; font-size: 1.1rem;">
+            ← VOLVER A STOCK
         </a>
-        <a href="{{ route('users.create') }}" class="btn" style="background-color: #00ffff; font-size: 1.2rem; color: #000000;">
-            AGREGAR NUEVO USUARIO +
+        <a href="{{ route('marcas.create') }}" class="btn" style="background: #ff8c00; font-size: 1.1rem; color: #000;">
+            AGREGAR NUEVA MARCA +
         </a>
     </div>
 
     <table>
         <thead>
             <tr>
-                <th>Nombre</th>
-                <th>Usuario</th>
-                <th>Email</th>
-                <th>Rol</th>
+                <th>Descripción</th>
                 <th>Acciones</th>
             </tr>
         </thead>
         <tbody>
-            @foreach($users as $user)
+            @forelse($marcas as $marca)
             <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->usuario ?: '—' }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ strtoupper($user->rol) }}</td>
+                <td>{{ $marca->descripcion }}</td>
                 <td>
-                    <a href="{{ route('users.edit', $user->id) }}" class="btn btn-edit">EDITAR</a>
-                    <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
+                    <a href="{{ route('marcas.edit', $marca->id) }}" class="btn btn-edit">EDITAR</a>
+                    <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">ELIMINAR</button>
+                        <button type="submit" class="btn btn-delete"
+                            onclick="return confirm('¿Eliminar la marca {{ $marca->descripcion }}?')">
+                            ELIMINAR
+                        </button>
                     </form>
                 </td>
             </tr>
-            @endforeach
+            @empty
+            <tr>
+                <td colspan="2" style="text-align:center; color:#555;">No hay marcas cargadas todavía.</td>
+            </tr>
+            @endforelse
         </tbody>
     </table>
 </div>

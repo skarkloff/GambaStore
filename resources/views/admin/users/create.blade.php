@@ -7,6 +7,8 @@
     .field { display: flex; flex-direction: column; }
     .full-width { grid-column: span 2; }
     label { text-transform: uppercase; font-weight: 900; margin-bottom: 5px; }
+    .required-mark { color: #000; font-weight: 900; }
+    .required-note { grid-column: span 2; font-size: 0.85rem; font-weight: bold; color: #333; margin-top: -5px; }
     input, select { padding: 10px; border: 3px solid #000; font-family: sans-serif; font-weight: bold; font-size: 1rem; }
     .hint { font-size: 0.8rem; font-family: Arial, sans-serif; color: #444; margin-top: 5px; }
     .error-msg { color: #cc0000; font-size: 0.85rem; margin-top: 5px; font-family: Arial, sans-serif; font-weight: bold; }
@@ -23,32 +25,32 @@
     @csrf
 
     <div class="field">
-        <label>Nombre Completo</label>
+        <label>Nombre Completo <span class="required-mark">(*)</span></label>
         <input type="text" name="name" value="{{ old('name') }}" required>
         @error('name') <span class="error-msg">{{ $message }}</span> @enderror
     </div>
 
     <div class="field">
-        <label>Usuario</label>
+        <label>Usuario <span class="required-mark">(*)</span></label>
         <input type="text" name="usuario" value="{{ old('usuario') }}" required>
         @error('usuario') <span class="error-msg">{{ $message }}</span> @enderror
     </div>
 
     <div class="field">
-        <label>Correo Electrónico</label>
+        <label>Correo Electrónico <span class="required-mark">(*)</span></label>
         <input type="email" name="email" value="{{ old('email') }}" required>
         @error('email') <span class="error-msg">{{ $message }}</span> @enderror
     </div>
 
     <div class="field">
-        <label>Contraseña</label>
+        <label>Contraseña <span class="required-mark">(*)</span></label>
         <input type="password" name="password" required>
         <span class="hint">Mínimo 8 caracteres, al menos una mayúscula y un número.</span>
         @error('password') <span class="error-msg">{{ $message }}</span> @enderror
     </div>
 
     <div class="field full-width">
-        <label>Rol de Acceso</label>
+        <label>Rol de Acceso <span class="required-mark">(*)</span></label>
         <select name="rol" required>
             <option value="Cliente" selected>CLIENTE</option>
             <option value="Empleado">EMPLEADO</option>
@@ -56,6 +58,8 @@
         </select>
         @error('rol') <span class="error-msg">{{ $message }}</span> @enderror
     </div>
+
+    <p class="required-note"><span class="required-mark">(*)</span> Campo obligatorio</p>
 
     <div class="btn-group">
         <button type="submit" class="btn-save">GUARDAR</button>

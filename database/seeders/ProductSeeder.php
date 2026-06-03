@@ -21,8 +21,13 @@ class ProductSeeder extends Seeder
             'marca' => 'Adidas',
             'modelo' => 'Mania 2002',
             'precio' => 145000,
-            'stock' => 10,
-            'talles' => ['39', '40', '41', '42', '43'],
+            'talles' => [
+                ['talle' => '39', 'stock' => 2],
+                ['talle' => '40', 'stock' => 3],
+                ['talle' => '41', 'stock' => 2],
+                ['talle' => '42', 'stock' => 2],
+                ['talle' => '43', 'stock' => 1],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Predator+Mania',
             'descripcion' => 'El clásico de los clásicos. Usado por Zidane en el Mundial 2002. Control total con los rubber fins.',
         ]);
@@ -32,8 +37,11 @@ class ProductSeeder extends Seeder
             'marca' => 'Nike',
             'modelo' => 'Mercurial 2002',
             'precio' => 138000,
-            'stock' => 6,
-            'talles' => ['40', '41', '42'],
+            'talles' => [
+                ['talle' => '40', 'stock' => 2],
+                ['talle' => '41', 'stock' => 2],
+                ['talle' => '42', 'stock' => 2],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Mercurial+R9',
             'descripcion' => 'El botín de Ronaldo en Corea-Japón 2002. Velocidad pura, suela de TPU y corte bajo.',
         ]);
@@ -43,8 +51,15 @@ class ProductSeeder extends Seeder
             'marca' => 'Adidas',
             'modelo' => 'Copa Mundial OG',
             'precio' => 98000,
-            'stock' => 25,
-            'talles' => ['38', '39', '40', '41', '42', '43', '44'],
+            'talles' => [
+                ['talle' => '38', 'stock' => 3],
+                ['talle' => '39', 'stock' => 4],
+                ['talle' => '40', 'stock' => 4],
+                ['talle' => '41', 'stock' => 5],
+                ['talle' => '42', 'stock' => 4],
+                ['talle' => '43', 'stock' => 3],
+                ['talle' => '44', 'stock' => 2],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Copa+Mundial',
             'descripcion' => 'El botín más vendido de la historia. Cuero canguro, suela de tacos intercambiables. Desde 1979.',
         ]);
@@ -54,8 +69,12 @@ class ProductSeeder extends Seeder
             'marca' => 'Nike',
             'modelo' => 'Total 90 Laser I',
             'precio' => 122000,
-            'stock' => 8,
-            'talles' => ['40', '41', '42', '43'],
+            'talles' => [
+                ['talle' => '40', 'stock' => 2],
+                ['talle' => '41', 'stock' => 2],
+                ['talle' => '42', 'stock' => 2],
+                ['talle' => '43', 'stock' => 2],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Total+90+Laser',
             'descripcion' => 'La zona de strike Power Bands revolucionó los tiros libres. Usado por Rooney y Ronaldinho.',
         ]);
@@ -65,8 +84,12 @@ class ProductSeeder extends Seeder
             'marca' => 'Puma',
             'modelo' => 'King Platinum',
             'precio' => 89000,
-            'stock' => 14,
-            'talles' => ['39', '40', '41', '42'],
+            'talles' => [
+                ['talle' => '39', 'stock' => 3],
+                ['talle' => '40', 'stock' => 4],
+                ['talle' => '41', 'stock' => 4],
+                ['talle' => '42', 'stock' => 3],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Puma+King',
             'descripcion' => 'Ícono del fútbol mundial desde los 70. Pelé, Maradona y Cruyff lo eligieron. Cuero premium.',
         ]);
@@ -76,8 +99,13 @@ class ProductSeeder extends Seeder
             'marca' => 'Nike',
             'modelo' => 'Tiempo Legend IV',
             'precio' => 105000,
-            'stock' => 18,
-            'talles' => ['38', '40', '41', '42', '43'],
+            'talles' => [
+                ['talle' => '38', 'stock' => 3],
+                ['talle' => '40', 'stock' => 4],
+                ['talle' => '41', 'stock' => 4],
+                ['talle' => '42', 'stock' => 4],
+                ['talle' => '43', 'stock' => 3],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Tiempo+Legend',
             'descripcion' => 'Cuero ACC para todo clima. El favorito de los mediocampistas con criterio.',
         ]);
@@ -87,8 +115,12 @@ class ProductSeeder extends Seeder
             'marca' => 'Adidas',
             'modelo' => 'F50 adizero SL',
             'precio' => 118000,
-            'stock' => 9,
-            'talles' => ['39', '41', '42', '43'],
+            'talles' => [
+                ['talle' => '39', 'stock' => 2],
+                ['talle' => '41', 'stock' => 3],
+                ['talle' => '42', 'stock' => 2],
+                ['talle' => '43', 'stock' => 2],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=F50+adizero',
             'descripcion' => 'El más liviano de su era: 165 gramos. Messi lo usó para su primer Balón de Oro.',
         ]);
@@ -98,8 +130,11 @@ class ProductSeeder extends Seeder
             'marca' => 'Mizuno',
             'modelo' => 'Morelia II Classic',
             'precio' => 132000,
-            'stock' => 7,
-            'talles' => ['40', '41', '42'],
+            'talles' => [
+                ['talle' => '40', 'stock' => 2],
+                ['talle' => '41', 'stock' => 3],
+                ['talle' => '42', 'stock' => 2],
+            ],
             'imagen_url' => 'https://placehold.co/300x200/ffde00/000000?text=Morelia+II',
             'descripcion' => 'Cuero canguro japonés de la mejor calidad. El botín más fino para los que saben.',
         ]);

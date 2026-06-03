@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\FirestoreService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
@@ -39,14 +40,28 @@ class UserController extends Controller
 
     public function store(Request $request)
     {
-        // Validamos los datos básicos
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'usuario'  => 'required|string|max:50',
             'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/'],
             'password' => ['required', Password::min(8)->mixedCase()->numbers()],
             'rol'      => 'required|string'
         ]);
+
+        $validator->after(function ($validator) use ($request) {
+            if (!$this->isUnique('usuario', $request->usuario)) {
+                $validator->errors()->add('usuario', 'El nombre de usuario ya está en uso.');
+            }
+            if (!$this->isUnique('email', $request->email)) {
+                $validator->errors()->add('email', 'El correo electrónico ya está registrado.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
 
         FirestoreService::collection($this->collectionName)->add([
             'name'       => $data['name'],
@@ -85,13 +100,28 @@ class UserController extends Controller
     
     public function update(Request $request, $id)
     {
-        $data = $request->validate([
+        $validator = Validator::make($request->all(), [
             'name'     => 'required|string|max:255',
             'usuario'  => 'required|string|max:50',
             'email'    => ['required', 'regex:/^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/'],
             'password' => ['nullable', Password::min(8)->mixedCase()->numbers()],
             'rol'      => 'required|string'
         ]);
+
+        $validator->after(function ($validator) use ($request, $id) {
+            if (!$this->isUnique('usuario', $request->usuario, $id)) {
+                $validator->errors()->add('usuario', 'El nombre de usuario ya está en uso.');
+            }
+            if (!$this->isUnique('email', $request->email, $id)) {
+                $validator->errors()->add('email', 'El correo electrónico ya está registrado.');
+            }
+        });
+
+        if ($validator->fails()) {
+            return back()->withErrors($validator)->withInput();
+        }
+
+        $data = $validator->validated();
 
         $updateData = [
             'name'    => $data['name'],
@@ -110,6 +140,20 @@ class UserController extends Controller
 
         // Redirección limpia a la tabla
         return redirect()->route('users.index')->with('success', 'Usuario actualizado correctamente.');
+    }
+
+    private function isUnique(string $field, string $value, ?string $excludeId = null): bool
+    {
+        $docs = FirestoreService::collection($this->collectionName)
+            ->where($field, '=', $value)
+            ->documents();
+
+        foreach ($docs as $doc) {
+            if ($doc->exists() && $doc->id() !== $excludeId) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public function destroy($id)

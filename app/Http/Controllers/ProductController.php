@@ -4,33 +4,39 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Product;
+use App\Models\Marca;
 use Cloudinary\Cloudinary;
 
 class ProductController extends Controller
 {
     public function index()
     {
-        // Llama directo a Firestore usando el Service
-        $products = \App\Models\Product::all();
-        return view('admin.products.index', compact('products'));
+        $products = Product::all();
+        $marcas   = Marca::allAsMap();
+        return view('admin.products.index', compact('products', 'marcas'));
     }
 
     public function create()
     {
-        return view('admin.products.create');
+        $marcas = Marca::all();
+        return view('admin.products.create', compact('marcas'));
     }
 
     public function store(Request $request)
     {
+        $request->merge(['precio' => str_replace(',', '.', $request->input('precio', ''))]);
+
         $data = $request->validate([
-            'nombre'      => 'required',
-            'marca'       => 'required',
-            'modelo'      => 'required',
-            'precio'      => 'required|numeric',
-            'stock'       => 'required|integer',
-            'talles'      => 'nullable|string',
-            'imagen'      => 'required|image|max:2048',
-            'descripcion' => 'nullable',
+            'nombre'          => 'required',
+            'marca_id'        => 'required|string',
+            'modelo'          => 'required',
+            'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
+            'precio'          => 'required|numeric|gt:0',
+            'talles'          => 'nullable|array',
+            'talles.*.talle'  => 'required|string',
+            'talles.*.stock'  => 'required|integer|min:1',
+            'imagen'          => 'required|image|max:2048',
+            'descripcion'     => 'nullable',
         ]);
 
         $cloudinary = new Cloudinary([
@@ -48,34 +54,42 @@ class ProductController extends Controller
         $data['imagen_url'] = $upload['secure_url'];
         unset($data['imagen']);
 
-        if (!empty($data['talles'])) {
-            $data['talles'] = array_map('trim', explode(',', $data['talles']));
-        }
+        $data['precio'] = (float) $data['precio'];
+
+        $data['talles'] = array_values(array_map(
+            fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],
+            $data['talles'] ?? []
+        ));
 
         Product::create($data);
 
-        return redirect()->route('admin.products.index');
+        return redirect()->route('products.index')->with('success', 'Botín creado correctamente');
     }
 
     public function edit($id)
     {
         $product = Product::findOrFail($id);
-        return view('admin.products.edit', compact('product'));
+        $marcas  = Marca::all();
+        return view('admin.products.edit', compact('product', 'marcas'));
     }
 
     public function update(Request $request, $id)
     {
         $product = Product::findOrFail($id);
 
+        $request->merge(['precio' => str_replace(',', '.', $request->input('precio', ''))]);
+
         $data = $request->validate([
-            'nombre'      => 'required',
-            'marca'       => 'required',
-            'modelo'      => 'required',
-            'precio'      => 'required|numeric',
-            'stock'       => 'required|integer',
-            'talles'      => 'nullable',
-            'imagen'      => 'nullable|image|max:2048',
-            'descripcion' => 'nullable',
+            'nombre'          => 'required',
+            'marca_id'        => 'required|string',
+            'modelo'          => 'required',
+            'tipo'            => 'required|in:' . implode(',', \App\Models\Product::TIPOS),
+            'precio'          => 'required|numeric|gt:0',
+            'talles'          => 'nullable|array',
+            'talles.*.talle'  => 'required|string',
+            'talles.*.stock'  => 'required|integer|min:1',
+            'imagen'          => 'nullable|image|max:2048',
+            'descripcion'     => 'nullable',
         ]);
 
         if ($request->hasFile('imagen')) {
@@ -98,18 +112,21 @@ class ProductController extends Controller
 
         unset($data['imagen']);
 
-        if (isset($data['talles']) && is_string($data['talles'])) {
-            $data['talles'] = array_map('trim', explode(',', $data['talles']));
-        }
+        $data['precio'] = (float) $data['precio'];
+
+        $data['talles'] = array_values(array_map(
+            fn($t) => ['talle' => trim($t['talle']), 'stock' => (int) $t['stock']],
+            $data['talles'] ?? []
+        ));
 
         $product->update($data);
-        return redirect()->route('admin.products.index');
+        return redirect()->route('products.index')->with('success', 'Botín actualizado correctamente');
     }
 
     public function destroy($id)
     {
         $product = Product::findOrFail($id);
         $product->delete();
-        return redirect()->route('admin.products.index')->with('success', 'Botín eliminado correctamente');
+        return redirect()->route('products.index')->with('success', 'Botín eliminado correctamente');
     }
 }
