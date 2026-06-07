@@ -6,6 +6,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MarcaController;
 use App\Http\Controllers\PromocionController;
+use App\Http\Controllers\MetodoPagoController;
+use App\Http\Controllers\PedidoController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -48,6 +50,21 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/promociones/{id}/editar', [PromocionController::class, 'edit'])->name('promociones.edit');
     Route::put('/admin/promociones/{id}', [PromocionController::class, 'update'])->name('promociones.update');
     Route::delete('/admin/promociones/{id}', [PromocionController::class, 'destroy'])->name('promociones.destroy');
+
+    // ── PEDIDOS ───────────────────────────
+    Route::get('/admin/pedidos', [PedidoController::class, 'index'])->name('pedidos.index');
+    Route::get('/admin/pedidos/{id}', [PedidoController::class, 'show'])->name('pedidos.show');
+    Route::get('/admin/pedidos/{id}/editar', [PedidoController::class, 'edit'])->name('pedidos.edit');
+    Route::put('/admin/pedidos/{id}', [PedidoController::class, 'update'])->name('pedidos.update');
+    Route::delete('/admin/pedidos/{id}', [PedidoController::class, 'destroy'])->name('pedidos.destroy');
+
+    // ── MÉTODOS DE PAGO ───────────────────
+    Route::get('/admin/metodos-pago', [MetodoPagoController::class, 'index'])->name('metodos_pago.index');
+    Route::get('/admin/metodos-pago/nuevo', [MetodoPagoController::class, 'create'])->name('metodos_pago.create');
+    Route::post('/admin/metodos-pago/guardar', [MetodoPagoController::class, 'store'])->name('metodos_pago.store');
+    Route::get('/admin/metodos-pago/{id}/editar', [MetodoPagoController::class, 'edit'])->name('metodos_pago.edit');
+    Route::put('/admin/metodos-pago/{id}', [MetodoPagoController::class, 'update'])->name('metodos_pago.update');
+    Route::delete('/admin/metodos-pago/{id}', [MetodoPagoController::class, 'destroy'])->name('metodos_pago.destroy');
 
     // ── USUARIOS (solo Administrador) ──────
     Route::middleware('admin.role')->group(function () {
