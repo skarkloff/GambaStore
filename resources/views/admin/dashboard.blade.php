@@ -86,8 +86,9 @@
         color: #555;
     }
 
-    .products-variant { background-color: var(--yellow); }
-    .users-variant { background-color: var(--cyan); }
+    .products-variant    { background-color: var(--yellow); }
+    .users-variant       { background-color: var(--cyan); }
+    .promos-variant      { background-color: #00ff7f; }
 
     .error-banner {
         background: #ff4545; color: white; border: 4px solid #000;
@@ -112,6 +113,11 @@
         <a href="{{ route('products.index') }}" class="menu-card products-variant">
             <span class="card-title">📦 STOCK</span>
             <span class="card-desc">Control de productos, marcas, precios y unidades disponibles.</span>
+        </a>
+
+        <a href="{{ route('promociones.index') }}" class="menu-card promos-variant">
+            <span class="card-title">🏷 PROMOCIONES</span>
+            <span class="card-desc">Gestión de descuentos, cupones y ofertas.</span>
         </a>
 
         @if(session('auth_user.rol') === 'Administrador')

@@ -5,6 +5,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\MarcaController;
+use App\Http\Controllers\PromocionController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -39,6 +40,14 @@ Route::middleware('admin.auth')->group(function () {
     Route::get('/admin/marcas/{id}/editar', [MarcaController::class, 'edit'])->name('marcas.edit');
     Route::put('/admin/marcas/{id}', [MarcaController::class, 'update'])->name('marcas.update');
     Route::delete('/admin/marcas/{id}', [MarcaController::class, 'destroy'])->name('marcas.destroy');
+
+    // ── PROMOCIONES ───────────────────────
+    Route::get('/admin/promociones', [PromocionController::class, 'index'])->name('promociones.index');
+    Route::get('/admin/promociones/nueva', [PromocionController::class, 'create'])->name('promociones.create');
+    Route::post('/admin/promociones/guardar', [PromocionController::class, 'store'])->name('promociones.store');
+    Route::get('/admin/promociones/{id}/editar', [PromocionController::class, 'edit'])->name('promociones.edit');
+    Route::put('/admin/promociones/{id}', [PromocionController::class, 'update'])->name('promociones.update');
+    Route::delete('/admin/promociones/{id}', [PromocionController::class, 'destroy'])->name('promociones.destroy');
 
     // ── USUARIOS (solo Administrador) ──────
     Route::middleware('admin.role')->group(function () {
