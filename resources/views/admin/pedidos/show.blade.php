@@ -125,7 +125,9 @@
 
     <div style="display:flex; gap:15px; margin-bottom:30px;">
         <a href="{{ route('pedidos.index') }}" class="btn" style="background:#fff;">← VOLVER</a>
-        <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn" style="background:var(--accent);">GESTIONAR PEDIDO</a>
+        @if($pedido->estado !== 'entregado')
+            <a href="{{ route('pedidos.edit', $pedido->id) }}" class="btn" style="background:var(--accent);">GESTIONAR PEDIDO</a>
+        @endif
     </div>
 
     {{-- Info del cliente --}}
