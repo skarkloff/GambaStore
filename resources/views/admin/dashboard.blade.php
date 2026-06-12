@@ -86,8 +86,11 @@
         color: #555;
     }
 
-    .products-variant { background-color: var(--yellow); }
-    .users-variant { background-color: var(--cyan); }
+    .products-variant    { background-color: var(--yellow); }
+    .users-variant       { background-color: var(--cyan); }
+    .promos-variant      { background-color: #00ff7f; }
+    .metodos-variant     { background-color: #ff00ff; }
+    .pedidos-variant     { background-color: #adff2f; }
 
     .error-banner {
         background: #ff4545; color: white; border: 4px solid #000;
@@ -112,6 +115,21 @@
         <a href="{{ route('products.index') }}" class="menu-card products-variant">
             <span class="card-title">📦 STOCK</span>
             <span class="card-desc">Control de productos, marcas, precios y unidades disponibles.</span>
+        </a>
+
+        <a href="{{ route('pedidos.index') }}" class="menu-card pedidos-variant">
+            <span class="card-title">📋 PEDIDOS</span>
+            <span class="card-desc">Seguimiento y gestión de pedidos de clientes.</span>
+        </a>
+
+        <a href="{{ route('metodos_pago.index') }}" class="menu-card metodos-variant">
+            <span class="card-title">💳 MÉTODOS DE PAGO</span>
+            <span class="card-desc">Gestión de métodos de pago disponibles para los clientes.</span>
+        </a>
+
+        <a href="{{ route('promociones.index') }}" class="menu-card promos-variant">
+            <span class="card-title">🏷 PROMOCIONES</span>
+            <span class="card-desc">Gestión de descuentos, cupones y ofertas.</span>
         </a>
 
         @if(session('auth_user.rol') === 'Administrador')
