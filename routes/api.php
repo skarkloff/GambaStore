@@ -14,10 +14,10 @@ Route::get('/marcas',                       [MarcaController::class,     'index'
 Route::get('/metodos-pago',                 [MetodoPagoController::class,'index']);
 Route::get('/promociones/activas',          [PromocionController::class, 'activas']);
 Route::post('/promociones/validar-codigo',  [PromocionController::class, 'validarCodigo']);
+Route::post('/pedidos',      [PedidoController::class, 'store']);
 
 // ── PROTEGIDOS (requieren Google ID Token) ────────
 Route::middleware('auth.google')->group(function () {
     Route::get('/pedidos',       [PedidoController::class, 'index']);
     Route::get('/pedidos/{id}',  [PedidoController::class, 'show']);
-    Route::post('/pedidos',      [PedidoController::class, 'store']);
 });
