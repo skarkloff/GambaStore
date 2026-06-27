@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StorePedidoRequest;
 use App\Http\Resources\PedidoResource;
 use App\Models\Pedido;
+use App\Models\Product;
+use Illuminate\Support\Facades\Http;
 
 class PedidoController extends Controller
 {
@@ -37,10 +39,14 @@ class PedidoController extends Controller
             $data['items']
         ));
 
+        $clienteId     = !empty($request->auth_uid) ? $request->auth_uid : 'invitado';
+        $clienteNombre = !empty($request->auth_name) ? $request->auth_name : 'Cliente Invitado';
+        $clienteEmail  = !empty($request->auth_email) ? $request->auth_email : 'invitado@gambastore.com';
+
         $payload = [
-            'cliente_id'       => $request->auth_uid,
-            'cliente_nombre'   => $request->auth_name,
-            'cliente_email'    => $request->auth_email,
+            'cliente_id'       => $clienteId,
+            'cliente_nombre'   => $clienteNombre,
+            'cliente_email'    => $clienteEmail,
             'estado'           => 'pendiente',
             'fecha'            => now()->toIso8601String(),
             'items'            => $data['items'],
@@ -56,8 +62,47 @@ class PedidoController extends Controller
 
         $pedido = Pedido::create($payload);
 
-        return (new PedidoResource($pedido))
-            ->response()
-            ->setStatusCode(201);
+        $mpAccessToken = env('MERCADOPAGO_ACCESS_TOKEN');
+
+        $mpItems = array_map(function ($item) {
+            try {
+                $product = Product::findOrFail($item['producto_id']);
+                $title   = $product->nombre . " (Talle: " . $item['talle'] . ")";
+            } catch (\Exception $e) {
+                $title   = "Producto " . $item['producto_id'] . " (Talle: " . $item['talle'] . ")";
+            }
+
+            return [
+                'id'          => $item['producto_id'],
+                'title'       => $title,
+                'quantity'    => (int) $item['cantidad'],
+                'unit_price'  => (float) $item['precio_unitario'],
+                'currency_id' => 'ARS',
+            ];
+        }, $data['items']);
+
+        $response = Http::withToken($mpAccessToken)
+            ->post('https://api.mercadopago.com/checkout/preferences', [
+                'items'     => $mpItems,
+                'back_urls' => [
+                    'success' => 'https://gambastore-frontend.vercel.app/exito',
+                    'failure' => 'https://gambastore-frontend.vercel.app/checkout',
+                    'pending' => 'https://gambastore-frontend.vercel.app/checkout'
+                ],
+                'auto_return' => 'approved',
+                'external_reference' => $pedido->id,
+            ]);
+
+        if ($response->failed()) {
+            return response()->json([
+                'error'   => 'Error al crear la preferencia de pago en Mercado Pago.',
+                'details' => $response->json() ?? $response->body()
+            ], 500);
+        }
+
+        return response()->json([
+            'pedido'     => new PedidoResource($pedido),
+            'init_point' => $response->json('init_point')
+        ], 201);
     }
 }
