@@ -14,7 +14,7 @@ Route::get('/marcas',                       [MarcaController::class,     'index'
 Route::get('/metodos-pago',                 [MetodoPagoController::class,'index']);
 Route::get('/promociones/activas',          [PromocionController::class, 'activas']);
 Route::post('/promociones/validar-codigo',  [PromocionController::class, 'validarCodigo']);
-Route::post('/pedidos',      [PedidoController::class, 'store']);
+Route::post('/pedidos',      [PedidoController::class, 'store'])->middleware(['throttle:5,1', 'auth.google:optional']);
 
 // ── PROTEGIDOS (requieren Google ID Token) ────────
 Route::middleware('auth.google')->group(function () {
