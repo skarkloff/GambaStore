@@ -3,8 +3,8 @@
 return [
     'paths'                    => ['api/*', 'api/api/*'], 
     
-    'allowed_methods'          => ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    'allowed_origins'          => explode(',', env('CORS_ALLOWED_ORIGINS', 'http://localhost:3000,http://localhost:5173')),
+    'allowed_methods'          => ['POST', 'GET', 'OPTIONS', 'PATCH', 'DELETE'],
+    'allowed_origins'          => ['https://gambastore-frontend.vercel.app'],
     'allowed_origins_patterns' => [],
     
     'allowed_headers'          => ['*'], 
