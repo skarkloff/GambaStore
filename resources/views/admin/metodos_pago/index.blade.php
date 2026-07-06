@@ -121,8 +121,8 @@
                     <form action="{{ route('metodos_pago.destroy', $metodo->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete"
-                            onclick="return confirm('¿Eliminar el método «{{ $metodo->descripcion }}»?')">
+                        <button type="button" class="btn btn-delete"
+                            onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar el método «{{ $metodo->descripcion }}»?')">
                             ELIMINAR
                         </button>
                     </form>

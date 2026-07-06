@@ -131,11 +131,13 @@
                 <td>{{ strtoupper($user->rol) }}</td>
                 <td>
                     <a href="{{ route('users.edit', $user->id) }}" class="btn btn-edit">EDITAR</a>
+                    @if($user->id !== session('auth_user')['id'])
                     <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este usuario?')">ELIMINAR</button>
+                        <button type="button" class="btn btn-delete" onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar este usuario?')">ELIMINAR</button>
                     </form>
+                    @endif
                 </td>
             </tr>
             @endforeach

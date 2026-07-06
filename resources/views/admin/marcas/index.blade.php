@@ -115,8 +115,8 @@
                     <form action="{{ route('marcas.destroy', $marca->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete"
-                            onclick="return confirm('¿Eliminar la marca {{ $marca->descripcion }}?')">
+                        <button type="button" class="btn btn-delete"
+                            onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar la marca {{ $marca->descripcion }}?')">
                             ELIMINAR
                         </button>
                     </form>

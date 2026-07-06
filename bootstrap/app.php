@@ -27,7 +27,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'admin.role'  => \App\Http\Middleware\AdminRole::class,
             'auth.google' => \App\Http\Middleware\VerifyGoogleToken::class,
         ]);
-        $middleware->api(append: [
+        $middleware->api(prepend: [
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
     })

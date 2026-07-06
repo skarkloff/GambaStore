@@ -8,11 +8,14 @@ use Google\Auth\AccessToken;
 
 class VerifyGoogleToken
 {
-    public function handle(Request $request, Closure $next)
+    public function handle(Request $request, Closure $next, ?string $mode = null)
     {
         $bearer = $request->bearerToken();
 
         if (!$bearer) {
+            if ($mode === 'optional') {
+                return $next($request);
+            }
             return response()->json(['error' => 'Token no proporcionado.'], 401);
         }
 
@@ -23,6 +26,9 @@ class VerifyGoogleToken
             ]);
 
             if (!$payload) {
+                if ($mode === 'optional') {
+                    return $next($request);
+                }
                 return response()->json(['error' => 'Token inválido.'], 401);
             }
 
@@ -32,6 +38,9 @@ class VerifyGoogleToken
                 'auth_name'  => $payload['name']  ?? '',
             ]);
         } catch (\Exception $e) {
+            if ($mode === 'optional') {
+                return $next($request);
+            }
             return response()->json(['error' => 'Token inválido.'], 401);
         }
 
