@@ -153,7 +153,7 @@
                     <form action="{{ route('products.destroy', $product->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete" onclick="return confirm('¿Estás seguro de que quieres eliminar este producto?')">ELIMINAR</button>
+                        <button type="button" class="btn btn-delete" onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar este producto?')">ELIMINAR</button>
                     </form>
                 </td>
             </tr>

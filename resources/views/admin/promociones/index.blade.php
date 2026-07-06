@@ -171,8 +171,8 @@
                     <form action="{{ route('promociones.destroy', $p->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete"
-                            onclick="return confirm('¿Eliminar la promoción «{{ $p->nombre }}»?')">
+                        <button type="button" class="btn btn-delete"
+                            onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar la promoción «{{ $p->nombre }}»?')">
                             ELIMINAR
                         </button>
                     </form>

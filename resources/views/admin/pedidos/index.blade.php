@@ -175,8 +175,8 @@
                     <form action="{{ route('pedidos.destroy', $pedido->id) }}" method="POST" style="display:inline;">
                         @csrf
                         @method('DELETE')
-                        <button type="submit" class="btn btn-delete"
-                            onclick="return confirm('¿Eliminar este pedido?')">ELIMINAR</button>
+                        <button type="button" class="btn btn-delete"
+                            onclick="openConfirmModal(this, '¿Estás seguro de que querés eliminar este pedido?')">ELIMINAR</button>
                     </form>
                 </td>
             </tr>
